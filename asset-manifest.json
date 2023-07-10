@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/solid-solitaire/static/css/main.9dbbdaa5.css",
-    "main.js": "/solid-solitaire/static/js/main.4a33e58f.js",
+    "main.js": "/solid-solitaire/static/js/main.c979e57c.js",
     "index.html": "/solid-solitaire/index.html",
     "main.9dbbdaa5.css.map": "/solid-solitaire/static/css/main.9dbbdaa5.css.map",
-    "main.4a33e58f.js.map": "/solid-solitaire/static/js/main.4a33e58f.js.map"
+    "main.c979e57c.js.map": "/solid-solitaire/static/js/main.c979e57c.js.map"
   },
   "entrypoints": [
     "static/css/main.9dbbdaa5.css",
-    "static/js/main.4a33e58f.js"
+    "static/js/main.c979e57c.js"
   ]
 }
