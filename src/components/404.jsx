@@ -1,4 +1,5 @@
 import React from "react";
+import pathWrapper from "../helpers/pathWrapper";
 
 const error = '404 Page Not Found';
 const message = 'Please, use navigation in app instead of manual <3';
@@ -11,7 +12,7 @@ const NotFound = () => (
         <div className='mb-14'>
             {message}
         </div>
-        <a href='/' className='px-8 py-5 border-ghost'>
+        <a href={pathWrapper('')} className='px-8 py-5 border-ghost'>
             {returnMessage}
         </a>
     </div>

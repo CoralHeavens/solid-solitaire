@@ -6,15 +6,16 @@ import {
 import Catalogue from './components/Catalogue';
 import NotFound from './components/404';
 import routes from './constants/routes';
+import pathWrapper from './helpers/pathWrapper';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: pathWrapper(''),
     element: <Catalogue />,
   },
   
   ...routes.map(({ route, component }) => ({
-    path: route,
+    path: pathWrapper(route),
     element: component
   })),
   
