@@ -15,3 +15,10 @@ a, button {
     @apply hover:opacity-80
 }
 
+.field {
+    @apply w-full h-full rounded-lg
+}
+
+.field * {
+    @apply text-slate-950
+}
