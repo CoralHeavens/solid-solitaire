@@ -17,7 +17,7 @@ const routes = {
     },
     scarf: {
         label: 'Scarf',
-        key: 'spider',
+        key: 'scarf',
         component: <Scarf />,
         logo: require('../img/scarf.jpg'),
     }
