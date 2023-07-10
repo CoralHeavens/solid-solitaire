@@ -1,35 +1,22 @@
-import React from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Catalogue from './components/Catalogue';
-import NotFound from './components/404';
-import routes from './constants/routes';
-import pathWrapper from './helpers/pathWrapper';
-
-const router = createBrowserRouter([
-  {
-    path: pathWrapper(''),
-    element: <Catalogue />,
-  },
-  
-  ...routes.map(({ route, component }) => ({
-    path: pathWrapper(route),
-    element: component
-  })),
-  
-  {
-    path: '*',
-    element: <NotFound />,
-  }
-]);
-
+import React, { useEffect, useState } from 'react';
+import routes, { baseRoute } from './constants/routes';
+import storageKeys from './constants/storageKeys';
 
 function App() {
+  const [route, updateRoute] = useState()
+
+  useEffect(() => {
+    const currentRoute = localStorage.getItem(storageKeys.currentRoute);
+    if (!currentRoute) {
+      localStorage.setItem(storageKeys.currentRoute, baseRoute.key)
+    }
+    updateRoute(routes[currentRoute] ?? baseRoute);
+
+  }, [])
+  
   return (
-    <div className='w-full h-[100vh] bg-slate-900 flex justify-center p-10 pt-[20vh]'>
-      <RouterProvider router={router} />
+    <div className='w-full h-[100vh] bg-slate-900 flex justify-center p-10 pt-[10vh]'>
+      {route?.component}
     </div>
   );
 }

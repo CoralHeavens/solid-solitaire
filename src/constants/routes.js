@@ -1,12 +1,20 @@
 import React from "react";
 import Spider from "../components/Spider";
+import Catalogue from "../components/Catalogue";
 
-const routes = [
-    {
+const routes = {
+    catalogue: {
+        label: 'Catalogue',
+        key: 'catalogue',
+        component: <Catalogue />,
+    },
+    spider: {
         label: 'Spider',
-        route: '/spider',
+        key: 'spider',
         component: <Spider />,
     }
-]
+}
+
+export const baseRoute = routes.catalogue;
 
 export default routes;
