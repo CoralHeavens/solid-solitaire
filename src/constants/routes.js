@@ -1,6 +1,7 @@
 import React from "react";
 import Spider from "../components/Spider";
 import Catalogue from "../components/Catalogue";
+import Scarf from "../components/Scarf";
 
 const routes = {
     catalogue: {
@@ -12,6 +13,13 @@ const routes = {
         label: 'Spider',
         key: 'spider',
         component: <Spider />,
+        logo: require('../img/spider.webp'),
+    },
+    scarf: {
+        label: 'Scarf',
+        key: 'spider',
+        component: <Scarf />,
+        logo: require('../img/scarf.jpg'),
     }
 }
 
