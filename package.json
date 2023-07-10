@@ -1,13 +1,14 @@
 {
   "name": "solitaire",
-  "homepage": "catalogue",
+  "homepage": "solid-solitaire",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
-    "gh-pages": "^5.0.0",
     "tailwindcss": "^3.3.2"
   },
   "scripts": {

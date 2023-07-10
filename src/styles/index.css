@@ -1,0 +1,17 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./glitch.css";
+
+body * {
+    @apply text-3xl text-white font-mono
+}
+
+.border-ghost {
+    @apply border-white border-[2px] border-opacity-30 rounded-2xl
+}
+
+a, button {
+    @apply hover:opacity-80
+}
+
