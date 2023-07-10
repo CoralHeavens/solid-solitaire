@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/solid-solitaire/static/css/main.9dbbdaa5.css",
-    "main.js": "/solid-solitaire/static/js/main.c979e57c.js",
+    "main.css": "/solid-solitaire/static/css/main.e23f6190.css",
+    "main.js": "/solid-solitaire/static/js/main.d24eb62f.js",
     "index.html": "/solid-solitaire/index.html",
-    "main.9dbbdaa5.css.map": "/solid-solitaire/static/css/main.9dbbdaa5.css.map",
-    "main.c979e57c.js.map": "/solid-solitaire/static/js/main.c979e57c.js.map"
+    "main.e23f6190.css.map": "/solid-solitaire/static/css/main.e23f6190.css.map",
+    "main.d24eb62f.js.map": "/solid-solitaire/static/js/main.d24eb62f.js.map"
   },
   "entrypoints": [
-    "static/css/main.9dbbdaa5.css",
-    "static/js/main.c979e57c.js"
+    "static/css/main.e23f6190.css",
+    "static/js/main.d24eb62f.js"
   ]
 }
