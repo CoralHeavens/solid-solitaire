@@ -1,11 +1,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { zeroPoint } from "./constants";
-import { alignOffsetToBorder } from "./helpers";
-
-const cardOffset = {
-    x: 0,
-    y: 10,
-}
+import { cardOffset, zeroPoint } from "../../constants/cardEngine";
+import joinClassNames from "../../helpers/joinClassNames";
+import { getElementPositionBounds } from "../../helpers/elementPositionBounds";
 
 const CardWrapper = ({
     stage,
@@ -32,7 +28,7 @@ const CardWrapper = ({
     }, [])
 
     const getOffset = (axis) => {
-        return alignOffsetToBorder({
+        return getElementPositionBounds({
             size: stage.size[axis],
             offset: offset[axis] - stage.offset[axis] - (cardSize[axis] / 2 + cardOffset[axis]),
             cardOffset: cardSize[axis],
@@ -46,10 +42,10 @@ const CardWrapper = ({
                 left: getOffset('x'),
                 top: getOffset('y'),
             }}
-            className={[
-                'bg-fuchsia-400 rounded-xl w-32 h-32 flex justify-center items-center p-10 absolute',
-                isActive ? 'cursor-none' : 'cursor-pointer',
-            ].filter(item => item).join(' ')}
+            className={joinClassNames(
+                'bg-fuchsia-400 rounded-xl w-32 h-32 flex p-10',
+                'justify-center items-center absolute'
+            )}
             onClick={(e) => {
                 if (isActive) {
                     document.removeEventListener('mousemove', getAxis);

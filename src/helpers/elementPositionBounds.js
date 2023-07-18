@@ -2,7 +2,7 @@ const getMin = (a, b) => a <= b ? a : b;
 
 const getMax = (a, b) => a >= b ? a : b;
 
-export const alignOffsetToBorder = ({
+export const getElementPositionBounds = ({
     size, offset, cardOffset,
 }) => (
     offset > (size / 2) 

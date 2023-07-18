@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import CardWrapper from "./CardWrapper";
-import { defaultCardSet, zeroPoint } from "./constants";
+import { defaultCardSet, zeroPoint } from "../../constants/cardEngine";
 
 const StageWrapper = ({
     className,
