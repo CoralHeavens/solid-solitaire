@@ -2,6 +2,7 @@ import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { cardOffset, zeroPoint } from "../../constants/cardEngine";
 import joinClassNames from "../../helpers/joinClassNames";
 import { getElementPositionBounds } from "../../helpers/elementPositionBounds";
+import { useCursorData, useUpdateCursorData } from "../../context/cursorContext";
 
 const CardWrapper = ({
     stage,
@@ -11,7 +12,9 @@ const CardWrapper = ({
     const [cardSize, updateCardSize] = useState(zeroPoint);
 
     const [offset, updateOffset] = useState(stage.offset);
-    const [isActive, updateIsActive] = useState(false);
+
+    const updateCursor = useUpdateCursorData();
+    const cursor = useCursorData();
 
     useLayoutEffect(() => {
         updateOffset(stage.offset);
@@ -47,13 +50,19 @@ const CardWrapper = ({
                 'justify-center items-center absolute'
             )}
             onClick={(e) => {
-                if (isActive) {
+                if (cursor?.hidden) {
                     document.removeEventListener('mousemove', getAxis);
-                    updateIsActive(false);
+                    updateCursor(state => ({
+                        ...state,
+                        hidden: false
+                    }))
                 } else {
                     getAxis(e)
                     document.addEventListener('mousemove', getAxis);
-                    updateIsActive(true);
+                    updateCursor(state => ({
+                        ...state,
+                        hidden: true
+                    }))
                 };
             }}
         >

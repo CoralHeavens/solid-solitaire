@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
+import { cursorOffset } from "../constants/cardEngine";
 
 const Cursor = ({
     cursorName = 'default',
@@ -11,8 +12,8 @@ const Cursor = ({
     const moveCursor = useCallback((e) => {
         updateCursor(state => ({
             ...state,
-            x: e.clientX,
-            y: e.clientY,
+            x: e.clientX - cursorOffset.x,
+            y: e.clientY - cursorOffset.y,
         }))
     }, [updateCursor]);
 
@@ -23,7 +24,7 @@ const Cursor = ({
         }
     }, [moveCursor])
 
-    return (cursor?.x && cursor?.y) ? (
+    return (cursor?.x && cursor?.y && !cursor?.hidden) ? (
         <img 
             src={require(`../svg/cursor/${cursorName}.svg`)} 
             className="absolute z-[9999] pointer-events-none rotate-[290deg]"

@@ -8,6 +8,11 @@ export const cardOffset = {
     y: 10,
 };
 
+export const cursorOffset = {
+    x: 8,
+    y: 0,
+}
+
 export const defaultCardSet = [
     {
         id: 'testCard'
