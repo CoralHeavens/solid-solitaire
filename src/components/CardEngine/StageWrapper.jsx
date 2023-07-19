@@ -1,11 +1,12 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import CardWrapper from "./CardWrapper";
-import { defaultCardSet, zeroPoint } from "../../constants/cardEngine";
+import { cardSets, zeroPoint } from "../../constants/cardEngine";
+import Card from "./Card";
 
 const StageWrapper = ({
     className,
-    cards = defaultCardSet,
-    children,
+    cardSet = cardSets.default,
+    cards = []
 }) => {
     const stageRef = useRef();
 
@@ -37,12 +38,12 @@ const StageWrapper = ({
                 className,
             ].filter(item => item).join(' ')}
         >
-            {cards.map(({ id }) => (
+            {cards.map(({ id, cardId }) => (
                 <CardWrapper 
                     key={id} 
                     stage={stage}
                 >
-                    {children}
+                    <Card cardSet={cardSet} id={cardId} />
                 </CardWrapper>
             ))}
         </section>

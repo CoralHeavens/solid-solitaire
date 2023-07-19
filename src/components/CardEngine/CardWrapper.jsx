@@ -1,20 +1,22 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, { cloneElement, useCallback, useLayoutEffect, useRef, useState } from "react";
 import { cardOffset, zeroPoint } from "../../constants/cardEngine";
-import joinClassNames from "../../helpers/joinClassNames";
+import joinClassNames from '../../helpers/joinClassNames';
 import { getElementPositionBounds } from "../../helpers/elementPositionBounds";
-import { useCursorData, useUpdateCursorData } from "../../context/cursorContext";
+import { useUpdateCursorData } from "../../context/cursorContext";
 
 const CardWrapper = ({
     stage,
     children
 }) => {
+    const Card = cloneElement(children);
+
     const cardRef = useRef();
     const [cardSize, updateCardSize] = useState(zeroPoint);
 
     const [offset, updateOffset] = useState(stage.offset);
+    const [isActive, updateActive] = useState(false);
 
     const updateCursor = useUpdateCursorData();
-    const cursor = useCursorData();
 
     useLayoutEffect(() => {
         updateOffset(stage.offset);
@@ -46,12 +48,13 @@ const CardWrapper = ({
                 top: getOffset('y'),
             }}
             className={joinClassNames(
-                'bg-fuchsia-400 rounded-xl w-32 h-32 flex p-10',
-                'justify-center items-center absolute'
+                'bg-lime-700 rounded-xl w-[12%] aspect-[2/3] p-1.5 absolute no-pointer-children',
+                isActive && 'z-[9999]'
             )}
             onClick={(e) => {
-                if (cursor?.hidden) {
+                if (isActive) {
                     document.removeEventListener('mousemove', getAxis);
+                    updateActive(false);
                     updateCursor(state => ({
                         ...state,
                         hidden: false
@@ -59,6 +62,7 @@ const CardWrapper = ({
                 } else {
                     getAxis(e)
                     document.addEventListener('mousemove', getAxis);
+                    updateActive(true);
                     updateCursor(state => ({
                         ...state,
                         hidden: true
@@ -66,7 +70,7 @@ const CardWrapper = ({
                 };
             }}
         >
-            {children}
+            {Card}
         </div>
     )
 }

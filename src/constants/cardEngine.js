@@ -13,8 +13,6 @@ export const cursorOffset = {
     y: 0,
 }
 
-export const defaultCardSet = [
-    {
-        id: 'testCard'
-    }
-];
+export const cardSets = {
+    default: 'default',
+}

@@ -26,3 +26,7 @@ a, button {
 .field * {
     @apply text-slate-950
 }
+
+.no-pointer-children * {
+    @apply pointer-events-none
+}
