@@ -6,6 +6,7 @@ import { useUpdateCursorData } from "../../context/cursorContext";
 
 const CardWrapper = ({
     stage,
+    areaId,
     children
 }) => {
     const Card = cloneElement(children);
@@ -48,7 +49,7 @@ const CardWrapper = ({
                 top: getOffset('y'),
             }}
             className={joinClassNames(
-                'bg-lime-700 rounded-xl w-[12%] aspect-[2/3] p-1.5 absolute no-pointer-children',
+                'bg-lime-700 card-wrapper',
                 isActive && 'z-[9999]'
             )}
             onClick={(e) => {

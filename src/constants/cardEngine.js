@@ -16,3 +16,7 @@ export const cursorOffset = {
 export const cardSets = {
     default: 'default',
 }
+
+export const stickyAreaSets = {
+    default: 'default',
+}

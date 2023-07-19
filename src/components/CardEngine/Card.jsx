@@ -18,7 +18,7 @@ const Card = ({
     ), [cardSet, category]);
 
     return (  
-        <div className="bg-white w-full h-full flex justify-between items-center flex-col">
+        <div className="bg-white w-full h-full flex justify-between items-center flex-col rounded-lg">
             <div className='flex w-full justify-start px-1.5'>
                 {sign}
                 {label}

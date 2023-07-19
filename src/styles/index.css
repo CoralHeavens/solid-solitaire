@@ -8,7 +8,7 @@ body {
 }
 
 body * {
-    @apply text-3xl text-white font-mono cursor-none
+    @apply text-3xl text-white font-mono cursor-none p-0 m-0
 }
 
 .border-ghost {
@@ -29,4 +29,12 @@ a, button {
 
 .no-pointer-children * {
     @apply pointer-events-none
+}
+
+.card-wrapper {
+    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children absolute
+}
+
+.area-border {
+    @apply border-blue-500 bg-sky-100 border-[4px] border-dashed
 }

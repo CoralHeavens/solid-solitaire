@@ -1,12 +1,15 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import CardWrapper from "./CardWrapper";
 import { cardSets, zeroPoint } from "../../constants/cardEngine";
 import Card from "./Card";
+import StickyArea from "./StickyArea";
+import parseElements from "../../helpers/parseElements";
 
 const StageWrapper = ({
     className,
     cardSet = cardSets.default,
-    cards = []
+    cards = [],
+    areas = [],
 }) => {
     const stageRef = useRef();
 
@@ -30,6 +33,37 @@ const StageWrapper = ({
         })
     }, [stageRef])
 
+    const [Areas, updateAreas] = useState(
+        useMemo(() => (
+            areas.map((area) => ({
+                ...area,
+                element: (
+                    <StickyArea
+                        key={area.id}
+                        area={area}
+                    />
+                )
+            })).reduce((o, area) => ({ 
+                ...o, 
+                [area.id]: area
+            }), {})
+        ), [areas])
+    )
+
+    const Cards = useMemo(() => cards.map(({ id, cardId, areaId }) => {
+
+
+        return (
+            <CardWrapper 
+                key={id}
+                areaId={areaId} 
+                stage={stage}
+            >
+                <Card cardSet={cardSet} id={cardId} />
+            </CardWrapper>
+        )
+    }), [cards, cardSet, stage])
+
     return (
         <section
             ref={stageRef}
@@ -38,14 +72,9 @@ const StageWrapper = ({
                 className,
             ].filter(item => item).join(' ')}
         >
-            {cards.map(({ id, cardId }) => (
-                <CardWrapper 
-                    key={id} 
-                    stage={stage}
-                >
-                    <Card cardSet={cardSet} id={cardId} />
-                </CardWrapper>
-            ))}
+            {parseElements(Areas)}
+
+            {Cards}
         </section>
     )
 }
