@@ -1,9 +1,12 @@
 import React from "react";
 import { RouteContextStore } from "../context/routeContext";
+import { CursorContextStore } from "../context/cursorContext";
 
 const contextWrapper = (children) => (
     <RouteContextStore.Provider>
-        {children}
+        <CursorContextStore.Provider>
+            {children}
+        </CursorContextStore.Provider>
     </RouteContextStore.Provider>
 )
 

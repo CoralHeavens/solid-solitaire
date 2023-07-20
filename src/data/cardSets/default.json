@@ -1,0 +1,257 @@
+[
+    {
+        "id": "six",
+        "label": "6",
+        "img": "",
+        "category": "diamonds",
+        "weight": 6
+    },
+    {
+        "id": "seven",
+        "label": "7",
+        "img": "",
+        "category": "diamonds",
+        "weight": 7
+    },
+    {
+        "id": "eight",
+        "label": "8",
+        "img": "",
+        "category": "diamonds",
+        "weight": 8
+    },
+    {
+        "id": "nine",
+        "label": "9",
+        "img": "",
+        "category": "diamonds",
+        "weight": 9
+    },
+    {
+        "id": "ten",
+        "label": "10",
+        "img": "",
+        "category": "diamonds",
+        "weight": 10
+    },
+    {
+        "id": "jack",
+        "label": "J",
+        "img": "",
+        "category": "diamonds",
+        "weight": 11
+    },
+    {
+        "id": "queen",
+        "label": "Q",
+        "img": "",
+        "category": "diamonds",
+        "weight": 12
+    },
+    {
+        "id": "king",
+        "label": "K",
+        "img": "",
+        "category": "diamonds",
+        "weight": 13
+    },
+    {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "diamonds",
+        "weight": 14
+    },
+
+    {
+        "id": "six",
+        "label": "6",
+        "img": "",
+        "category": "hearts",
+        "weight": 6
+    },
+    {
+        "id": "seven",
+        "label": "7",
+        "img": "",
+        "category": "hearts",
+        "weight": 7
+    },
+    {
+        "id": "eight",
+        "label": "8",
+        "img": "",
+        "category": "hearts",
+        "weight": 8
+    },
+    {
+        "id": "nine",
+        "label": "9",
+        "img": "",
+        "category": "hearts",
+        "weight": 9
+    },
+    {
+        "id": "ten",
+        "label": "10",
+        "img": "",
+        "category": "hearts",
+        "weight": 10
+    },
+    {
+        "id": "jack",
+        "label": "J",
+        "img": "",
+        "category": "hearts",
+        "weight": 11
+    },
+    {
+        "id": "queen",
+        "label": "Q",
+        "img": "",
+        "category": "hearts",
+        "weight": 12
+    },
+    {
+        "id": "king",
+        "label": "K",
+        "img": "",
+        "category": "hearts",
+        "weight": 13
+    },
+    {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "hearts",
+        "weight": 14
+    },
+
+    {
+        "id": "six",
+        "label": "6",
+        "img": "",
+        "category": "clubs",
+        "weight": 6
+    },
+    {
+        "id": "seven",
+        "label": "7",
+        "img": "",
+        "category": "clubs",
+        "weight": 7
+    },
+    {
+        "id": "eight",
+        "label": "8",
+        "img": "",
+        "category": "clubs",
+        "weight": 8
+    },
+    {
+        "id": "nine",
+        "label": "9",
+        "img": "",
+        "category": "clubs",
+        "weight": 9
+    },
+    {
+        "id": "ten",
+        "label": "10",
+        "img": "",
+        "category": "clubs",
+        "weight": 10
+    },
+    {
+        "id": "jack",
+        "label": "J",
+        "img": "",
+        "category": "clubs",
+        "weight": 11
+    },
+    {
+        "id": "queen",
+        "label": "Q",
+        "img": "",
+        "category": "clubs",
+        "weight": 12
+    },
+    {
+        "id": "king",
+        "label": "K",
+        "img": "",
+        "category": "clubs",
+        "weight": 13
+    },
+    {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "clubs",
+        "weight": 14
+    },
+
+    {
+        "id": "six",
+        "label": "6",
+        "img": "",
+        "category": "spades",
+        "weight": 6
+    },
+    {
+        "id": "seven",
+        "label": "7",
+        "img": "",
+        "category": "spades",
+        "weight": 7
+    },
+    {
+        "id": "eight",
+        "label": "8",
+        "img": "",
+        "category": "spades",
+        "weight": 8
+    },
+    {
+        "id": "nine",
+        "label": "9",
+        "img": "",
+        "category": "spades",
+        "weight": 9
+    },
+    {
+        "id": "ten",
+        "label": "10",
+        "img": "",
+        "category": "spades",
+        "weight": 10
+    },
+    {
+        "id": "jack",
+        "label": "J",
+        "img": "",
+        "category": "spades",
+        "weight": 11
+    },
+    {
+        "id": "queen",
+        "label": "Q",
+        "img": "",
+        "category": "spades",
+        "weight": 12
+    },
+    {
+        "id": "king",
+        "label": "K",
+        "img": "",
+        "category": "spades",
+        "weight": 13
+    },
+    {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "spades",
+        "weight": 14
+    }
+]
