@@ -3,13 +3,13 @@ import React, { useMemo } from "react";
 const Card = ({
     id, cardSet
 }) => {
-    const { label, category } = require(`../../data/cardSets/${cardSet}.json`)[id];
+    const { label, category } = require(`../data/cardSets/${cardSet}.json`)[id];
 
     const size = 24;
 
     const sign = useMemo(() => (
         <img 
-            src={require(`../../svg/cardSets/${cardSet}/sign/${category}.svg`)} 
+            src={require(`../svg/cardSets/${cardSet}/sign/${category}.svg`)} 
             className="pointer-events-none"
             width={size} 
             height={size}

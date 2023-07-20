@@ -31,8 +31,12 @@ a, button {
     @apply pointer-events-none
 }
 
+.area-wrapper {
+    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children absolute min-w-[95px]
+}
+
 .card-wrapper {
-    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children absolute
+    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children absolute min-w-[95px] shadow-2xl
 }
 
 .area-border {

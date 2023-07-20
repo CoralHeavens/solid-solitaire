@@ -3,6 +3,7 @@ import routes, { baseRoute } from './constants/routes';
 import storageKeys from './constants/storageKeys';
 import { useRouteData, useUpdateRouteData } from './context/routeContext';
 import Cursor from './components/Cursor';
+import StageService from "./services/StageService";
 
 const navLabel = 'Back';
 
@@ -13,6 +14,8 @@ function App() {
   const routeKey = useRouteData();
   const route = routes[routeKey];
   const updateRoute = useUpdateRouteData();
+
+  global.stage = new StageService();
   
   useEffect(() => {
     if (!routeKey) {
