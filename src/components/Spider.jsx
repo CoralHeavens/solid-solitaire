@@ -1,73 +1,18 @@
 import React, { useEffect } from "react";
 import StageWrapper from "./StageWrapper";
+import useStageControls from "../hooks/useStageControls";
+import { SPIDER_AREAS } from "../data/spider/areas";
+import { SPIDER_CARDS } from "../data/spider/cards";
 
 const Spider = () => {
+    const { initAreas, initCards } = useStageControls();
+
     useEffect(() => {
-        global.stage.initAreas([
-            {
-                areaId: '0',
-                positionModifier: {
-                    x: 0.5,
-                    y: 0,
-                },
-                cardIds: [
-                    'card_0',
-                    'card_1',
-                ]
-            },
-            {
-                areaId: '0',
-                positionModifier: {
-                    x: 2.5,
-                    y: 0,
-                },
-                cardIds: [
-                ]
-            },
-            {
-                areaId: '0',
-                positionModifier: {
-                    x: 4.5,
-                    y: 0,
-                },
-                cardIds: [
-                ]
-            },
-            {
-                areaId: '0',
-                positionModifier: {
-                    x: 6.5,
-                    y: 0,
-                },
-                cardIds: [
-                ]
-            },
-            {
-                areaId: '0',
-                positionModifier: {
-                    x: 8.5,
-                    y: 0,
-                },
-                cardIds: [
-                ]
-            }
-        ]);
+        initAreas(SPIDER_AREAS);
+        initCards(SPIDER_CARDS);
+    }, [initAreas, initCards])
 
-        global.stage.initCards([
-            {
-                cardId: '28',
-                areaId: 'area_0'
-            },
-            {
-                cardId: '29',
-                areaId: 'area_0'
-            }
-        ]);
-    }, [])
-
-    return (
-        <StageWrapper className={'field bg-slate-200'} />
-    )
+    return <StageWrapper className={'field bg-slate-200'} />
 }
 
 export default Spider;

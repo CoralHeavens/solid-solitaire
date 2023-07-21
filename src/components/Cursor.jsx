@@ -13,7 +13,7 @@ const Cursor = ({
         updateCursor(state => ({
             ...state,
             x: e.clientX - cursorOffset.x,
-            y: e.clientY - cursorOffset.y,
+            y: e.clientY - cursorOffset.y
         }))
     }, [updateCursor]);
 

@@ -18,7 +18,13 @@ export const cursorOffset = {
     y: 0,
 }
 
+export const cardOffsetModifier = {
+    x: 0,
+    y: 0.4,
+}
+
 export const cardStartIndex = 27;
+export const cardDragIndex = 900;
 
 export const cardSets = {
     default: 'default',
