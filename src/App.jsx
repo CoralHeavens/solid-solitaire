@@ -3,7 +3,6 @@ import routes, { baseRoute } from './constants/routes';
 import storageKeys from './constants/storageKeys';
 import { useRouteData, useUpdateRouteData } from './context/routeContext';
 import Cursor from './components/Cursor';
-import StageService from "./services/StageService";
 
 const navLabel = 'Back';
 
@@ -14,8 +13,6 @@ function App() {
   const routeKey = useRouteData();
   const route = routes[routeKey];
   const updateRoute = useUpdateRouteData();
-
-  global.stage = new StageService();
   
   useEffect(() => {
     if (!routeKey) {
@@ -26,7 +23,9 @@ function App() {
   
   return (
     <main className='relative w-full h-[100vh] bg-slate-900 flex flex-col items-center p-10'>
+      
       <Cursor />
+      
       <nav className='mb-6 w-full flex items-center'>
           {routeKey !== baseRoute.key && (
             <>
@@ -44,7 +43,9 @@ function App() {
             </>
           )}
         </nav>
+        
         {route?.component}
+        
         <footer className='absolute bottom-2 opacity-30'>
           <a className='text-base' href={footerLink}>
             {footerMessage}

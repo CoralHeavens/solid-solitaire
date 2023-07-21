@@ -1,7 +1,8 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { areaGap, cardStartIndex, zeroSize } from "../constants/cardEngine";
-import joinClassNames from '../helpers/joinClassNames';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { areaGap, cardDragIndex, cardOffsetModifier, cardStartIndex, zeroSize } from "../constants/cardEngine";
 import getModifiedOffset from "../helpers/getModifiedOffset";
+import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
+import useStageControls from "../hooks/useStageControls";
 
 const CardWrapper = ({
     stageWrapper,
@@ -9,63 +10,78 @@ const CardWrapper = ({
     id,
     children
 }) => {
-    const [area, updateArea] = useState(global.stage.getAreas()[areaId]);
+    const { getAreas, echoAll, moveCards } = useStageControls();
+    const area = getAreas()[areaId];
+
+    const cursor = useCursorData();
+    const updateCursor = useUpdateCursorData();
 
     const cardRef = useRef();
     const [cardSize, updateCardSize] = useState(zeroSize);
 
     const areaOffset = getModifiedOffset(cardSize, area.positionModifier);
-    const index = area.cardIds.indexOf(id);
+    const areaIndex = area.cardIds.indexOf(id);
 
-    const baseStyle = {
-        left: areaOffset.x + (areaGap.x * index), 
-        top: areaOffset.y + (areaGap.y * index),
-        zIndex: cardStartIndex + index
+    const dragIndex = cursor.cardIds.indexOf(id);
+    const isDragged = dragIndex >= 0;
+
+    const areaStyle = {
+        left: areaOffset.x + (areaGap.x * areaIndex), 
+        top: areaOffset.y + (areaGap.y * areaIndex),
+        zIndex: cardStartIndex + areaIndex
     }
 
     const [offset, updateOffset] = useState(areaOffset);
 
-    const draggedStyle = {
-        left: offset.x - stageWrapper.offset.x - cardSize.width / 2, 
-        top: offset.y - stageWrapper.offset.y - cardSize.height / 2
+    const dragStyle = {
+        left: offset.x - stageWrapper.offset.x - cardSize.width / 2 + (cardSize.width * cardOffsetModifier.x) + (areaGap.x * dragIndex), 
+        top: offset.y - stageWrapper.offset.y - cardSize.height / 2 + (cardSize.height * cardOffsetModifier.y) + (areaGap.y * dragIndex),
+        zIndex: cardDragIndex + dragIndex
     }
 
-    const [isDragged, updateIsDragged] = useState(false);
+    const setOffset = useCallback((e) => updateOffset({x: e.clientX, y: e.clientY}), []);
+
+    useEffect(() => {
+        // console.log(getAreas())
+        if (isDragged) {
+            updateOffset({x: cursor.x, y: cursor.y});
+        }
+    }, [isDragged, cursor])
 
     useLayoutEffect(() => {
         const { width, height } = cardRef.current.getBoundingClientRect();
         updateCardSize({ width, height })
     }, [cardRef, stageWrapper])
 
-    const setOffset = useCallback((e) => updateOffset({x: e.clientX, y: e.clientY}), [])
-
     const takeCard = (e) => {
-        if (area.cardIds.length - 1 > index) return;
-
+        updateCursor(state => ({
+            ...state,
+            cardIds: area.cardIds.slice(areaIndex)
+        }));
         setOffset(e);
-        document.addEventListener('mousemove', setOffset);
-        updateIsDragged(true);
     }
 
     const dropCard = () => {
-        document.removeEventListener('mousemove', setOffset);
-        updateIsDragged(false);
+        
+        moveCards({
+            items: cursor.cardIds, 
+            from: area.id, 
+            to: echoAll(area.id, cardRef.current.getBoundingClientRect())
+        });
 
-        const echo = global.stage.echoAll(area.id, cardRef.current.getBoundingClientRect());
-        if (echo.id === area.id) return;
+        updateCursor(state => ({
+            ...state,
+            cardIds: []
+        }));
 
-        global.stage.moveCard(id, area.id, echo.id);
-        updateArea(echo);
+        
     }
 
     return (
         <div
             ref={cardRef}
-            style={isDragged ? draggedStyle : baseStyle}
-            className={joinClassNames(
-                'bg-lime-700 card-wrapper',
-                isDragged && 'z-[9999]'
-            )}
+            style={isDragged ? dragStyle : areaStyle}
+            className='bg-lime-700 card-wrapper'
             onClick={(e) => isDragged ? dropCard() : takeCard(e)}
         >
             {children}
