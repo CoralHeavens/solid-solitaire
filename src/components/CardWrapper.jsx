@@ -42,7 +42,6 @@ const CardWrapper = ({
     const setOffset = useCallback((e) => updateOffset({x: e.clientX, y: e.clientY}), []);
 
     useEffect(() => {
-        // console.log(getAreas())
         if (isDragged) {
             updateOffset({x: cursor.x, y: cursor.y});
         }
@@ -61,12 +60,11 @@ const CardWrapper = ({
         setOffset(e);
     }
 
-    const dropCard = () => {
-        
+    const dropCard = (e) => {
         moveCards({
             items: cursor.cardIds, 
-            from: area.id, 
-            to: echoAll(area.id, cardRef.current.getBoundingClientRect())
+            from: area.id,
+            to: echoAll(e.clientX, e.clientY, area.id)
         });
 
         updateCursor(state => ({
@@ -82,7 +80,7 @@ const CardWrapper = ({
             ref={cardRef}
             style={isDragged ? dragStyle : areaStyle}
             className='bg-lime-700 card-wrapper'
-            onClick={(e) => isDragged ? dropCard() : takeCard(e)}
+            onClick={(e) => isDragged ? dropCard(e) : takeCard(e)}
         >
             {children}
         </div>
