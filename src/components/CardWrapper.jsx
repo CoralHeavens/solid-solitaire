@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { areaGap, cardDragIndex, cardOffsetModifier, cardStartIndex, zeroSize } from "../constants/cardEngine";
 import getModifiedOffset from "../helpers/getModifiedOffset";
 import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
@@ -31,21 +31,26 @@ const CardWrapper = ({
         zIndex: cardStartIndex + areaIndex
     }
 
-    const [offset, updateOffset] = useState(areaOffset);
+    const dragStyle = useMemo(() => {
+        if (!isDragged) return;
 
-    const dragStyle = {
-        left: offset.x - stageWrapper.offset.x - cardSize.width / 2 + (cardSize.width * cardOffsetModifier.x) + (areaGap.x * dragIndex), 
-        top: offset.y - stageWrapper.offset.y - cardSize.height / 2 + (cardSize.height * cardOffsetModifier.y) + (areaGap.y * dragIndex),
-        zIndex: cardDragIndex + dragIndex
-    }
+        const isSoloDragging = cursor.cardIds.length === 1;
 
-    const setOffset = useCallback((e) => updateOffset({x: e.clientX, y: e.clientY}), []);
+        const cardPosX = cursor.x - stageWrapper.offset.x - cardSize.width / 2;
+        const cardPosY = cursor.y - stageWrapper.offset.y - cardSize.height / 2;
 
-    useEffect(() => {
-        if (isDragged) {
-            updateOffset({x: cursor.x, y: cursor.y});
+        const cardCursorOffsetX = isSoloDragging ? 0 : cardSize.width * cardOffsetModifier.x;
+        const cardCursorOffsetY = isSoloDragging ? 0 : cardSize.height * cardOffsetModifier.y;
+
+        const areaShiftX = areaGap.x * dragIndex;
+        const areaShiftY = areaGap.y * dragIndex;
+
+        return {
+            left: cardPosX + cardCursorOffsetX + areaShiftX,
+            top: cardPosY + cardCursorOffsetY + areaShiftY,
+            zIndex: cardDragIndex + dragIndex
         }
-    }, [isDragged, cursor])
+    }, [cursor, cardSize, dragIndex, stageWrapper, isDragged])
 
     useLayoutEffect(() => {
         const { width, height } = cardRef.current.getBoundingClientRect();
@@ -57,7 +62,6 @@ const CardWrapper = ({
             ...state,
             cardIds: area.cardIds.slice(areaIndex)
         }));
-        setOffset(e);
     }
 
     const dropCard = (e) => {
