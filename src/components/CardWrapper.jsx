@@ -2,7 +2,9 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { areaGap, cardDragIndex, cardOffsetModifier, cardStartIndex, zeroSize } from "../constants/cardEngine";
 import getModifiedOffset from "../helpers/getModifiedOffset";
 import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
-import useStageControls from "../hooks/useStageControls";
+import { useAreas } from "../context/areasContext";
+import useEcho from "../hooks/useEcho";
+import useMove from "../hooks/useMove";
 
 const CardWrapper = ({
     stageWrapper,
@@ -10,8 +12,9 @@ const CardWrapper = ({
     id,
     children
 }) => {
-    const { getAreas, echoAll, moveCards } = useStageControls();
-    const area = getAreas()[areaId];
+    const { moveCards } = useMove();
+    const echoAll = useEcho();
+    const area = useAreas()[areaId];
 
     const cursor = useCursorData();
     const updateCursor = useUpdateCursorData();
@@ -57,7 +60,7 @@ const CardWrapper = ({
         updateCardSize({ width, height })
     }, [cardRef, stageWrapper])
 
-    const takeCard = (e) => {
+    const takeCard = () => {
         updateCursor(state => ({
             ...state,
             cardIds: area.cardIds.slice(areaIndex)
@@ -75,8 +78,6 @@ const CardWrapper = ({
             ...state,
             cardIds: []
         }));
-
-        
     }
 
     return (
@@ -84,7 +85,7 @@ const CardWrapper = ({
             ref={cardRef}
             style={isDragged ? dragStyle : areaStyle}
             className='bg-lime-700 card-wrapper'
-            onClick={(e) => isDragged ? dropCard(e) : takeCard(e)}
+            onClick={(e) => isDragged ? dropCard(e) : takeCard()}
         >
             {children}
         </div>
