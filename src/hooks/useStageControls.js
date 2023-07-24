@@ -4,7 +4,7 @@ import StickyArea from "../components/StickyArea";
 import getBounds from "../helpers/getBounds";
 import Card from "../components/Card";
 import CardWrapper from "../components/CardWrapper";
-import { zeroPoint } from "../constants/cardEngine";
+import { areaGap, zeroPoint } from "../constants/cardEngine";
 import { useCallback, useMemo } from "react";
 
 const useStageControls = () => {
@@ -55,20 +55,34 @@ const useStageControls = () => {
             ...o, 
             [`area_${index}`]: {
                 ...area,
-                id: `area_${index}`
+                id: `area_${index}`,
+                cardIds: []
             }
         }), {})
     ), [updateAreas]);
 
     const initCards = useCallback((cards = []) => updateCards(
-        cards.reduce((o, card, index) => ({ 
-            ...o,
-            [`card_${index}`]: {
-                ...card,
-                id: `card_${index}`
+        cards.reduce((o, card, index) => {
+            updateAreas(state => ({
+                ...state,
+                [card.areaId]: {
+                    ...state[card.areaId],
+                    cardIds: [
+                        ...state[card.areaId].cardIds, 
+                        `card_${index}`
+                    ]
+                }
+            }))
+
+            return { 
+                ...o,
+                [`card_${index}`]: {
+                    ...card,
+                    id: `card_${index}`
+                }
             }
-        }), {})
-    ), [updateCards]);
+        }, {})
+    ), [updateCards, updateAreas]);
 
     const AreaElements = useMemo(() => (
         () => (
@@ -81,17 +95,24 @@ const useStageControls = () => {
         )
     ), [areas]);
 
-    const echoArea = (areaId, card) => {
-        const area = getBounds(areaId);
-        const xDiff = Math.abs((area.x + area.width / 2) - (card.x + card.width / 2));
-        const yDiff = Math.abs((area.y + area.height / 2) - (card.y + card.height / 2));
+    const echoArea = (clickX, clickY, areaId) => {
+        const cardsAmount = areas[areaId].cardIds.length;
+        const { x: startX, y: startY, width, height } = getBounds(areaId);
 
-        return (xDiff <= area.width / 2) && (yDiff <= area.height / 2);
+        const endX = startX + width + areaGap.x * cardsAmount;
+        const endY = startY + height + areaGap.y * cardsAmount;
+
+        return (
+            clickX >= startX && 
+            clickX <= endX && 
+            clickY >= startY && 
+            clickY <= endY
+        );
     };
 
-    const echoAll = (areaId, card) => {
+    const echoAll = (clickX, clickY, areaId) => {
         Object.keys(areas).forEach((id) => {
-            if (echoArea(id, card)) {
+            if (echoArea(clickX, clickY, id)) {
                 areaId = id;
             }
         })
@@ -101,7 +122,7 @@ const useStageControls = () => {
 
     const CardElements = useMemo(() => (
         ({ stageWrapper = { offset: zeroPoint, height: zeroPoint } }) => (
-            Object.values(cards).map(({ id, areaId, cardId }) => (
+            Object.values(cards).map(({ id, areaId, cardType }) => (
                 <CardWrapper 
                     key={id}
                     id={id}
@@ -110,7 +131,7 @@ const useStageControls = () => {
                 >
                     <Card 
                         cardSet={'default'} 
-                        id={cardId} 
+                        id={cardType} 
                     />
                 </CardWrapper>
             ))

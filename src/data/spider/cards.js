@@ -1,11 +1,27 @@
 export const SPIDER_CARDS =
 [
     {
-        cardId: '28',
+        cardType: '28',
         areaId: 'area_0'
     },
     {
-        cardId: '29',
+        cardType: '29',
+        areaId: 'area_1'
+    },
+    {
+        cardType: '32',
         areaId: 'area_0'
-    }
+    },
+    {
+        cardType: '14',
+        areaId: 'area_3'
+    },
+    {
+        cardType: '5',
+        areaId: 'area_3'
+    },
+    {
+        cardType: '12',
+        areaId: 'area_0'
+    },
 ]
