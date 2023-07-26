@@ -1,10 +1,13 @@
 import { useAreas, useUpdateAreas } from "../context/areasContext";
-import { useUpdateCards } from "../context/cardsContext";
+import { useCards, useUpdateCards } from "../context/cardsContext";
+import { usePresets } from "../context/presetsContext";
 
 const useMove = () => {
     const updateCards = useUpdateCards();
     const updateAreas = useUpdateAreas();
     const areas = useAreas();
+    const cards = useCards();
+    const { data: presets, compareWeights: useWeight } = usePresets();
 
     const updateCardsAreaId = (items, areaId) => (
         updateCards(state => {
@@ -38,15 +41,41 @@ const useMove = () => {
         ))
     )
 
+    const compareCards = ({
+        fromId, toId, key
+    }) => {
+        if (!(fromId && toId && key)) return true;
+
+        const fromCard = presets[cards[fromId].cardType];
+        const toCard = presets[cards[toId].cardType];
+
+        const isKey = fromCard[key] === toCard[key];
+
+        if (!useWeight) return isKey;
+        const isWeight = toCard.weight - fromCard.weight === 1;
+
+        return isKey && isWeight;
+    }
+
     const moveCards = ({
-        items, from, to
+        items, from, to, key
     }) => {
         if (from === to) return;
         if (!items) items = areas[from].cardIds;
-        
-        cutFromAreaCards(items, from);
-        pushToAreaCardIds(items, to);
-        updateCardsAreaId(items, to);
+
+        const isAppliable = compareCards({
+            fromId: items[0],
+            toId: areas[to].cardIds.at(-1),
+            key
+        });
+
+        if (isAppliable) {
+            cutFromAreaCards(items, from);
+            pushToAreaCardIds(items, to);
+            updateCardsAreaId(items, to);
+        }
+
+        return isAppliable;
     }
 
     return { moveCards };

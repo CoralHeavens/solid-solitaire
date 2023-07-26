@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 
 const Card = ({
-    id, cardSet
+    card, cardSet
 }) => {
-    const { label, category } = require(`../data/cardSets/${cardSet}.json`)[id];
+    const { label, category } = card;
 
     const size = 24;
 

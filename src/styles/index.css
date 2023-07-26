@@ -8,7 +8,7 @@ body {
 }
 
 body * {
-    @apply text-3xl text-white font-mono cursor-none p-0 m-0
+    @apply text-3xl text-white font-mono cursor-auto p-0 m-0
 }
 
 .border-ghost {

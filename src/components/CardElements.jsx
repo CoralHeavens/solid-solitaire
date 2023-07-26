@@ -3,22 +3,34 @@ import { useCards } from "../context/cardsContext";
 import CardWrapper from "./CardWrapper";
 import Card from "./Card";
 import { zeroPoint } from "../constants/cardEngine";
+import HiddenCard from "./HiddenCard";
 
-const CardElements = ({ stageWrapper = { offset: zeroPoint, height: zeroPoint } }) => {
+const CardElements = ({ 
+    stageWrapper = { 
+        offset: zeroPoint, 
+        height: zeroPoint 
+    },
+    comparisonKey, 
+    stayVisible,
+    showOnlyLast,
+    freeMove,
+    children = []
+}) => {
     const cards = useCards();
 
     return (
-        Object.values(cards).map(({ id, areaId, cardType }) => (
+        Object.values(cards).map((card) => (
             <CardWrapper 
-                key={id}
-                id={id}
-                areaId={areaId} 
+                key={card.id}
+                card={card}
                 stageWrapper={stageWrapper}
+                comparisonKey={comparisonKey}
+                showOnlyLast={showOnlyLast}
+                stayVisible={stayVisible}
+                freeMove={freeMove}
             >
-                <Card 
-                    cardSet={'default'} 
-                    id={cardType} 
-                />
+                {children[0] ?? <Card />}
+                {children[1] ?? <HiddenCard />}
             </CardWrapper>
         ))
     )
