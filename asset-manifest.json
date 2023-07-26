@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/solid-solitaire/static/css/main.94eab803.css",
-    "main.js": "/solid-solitaire/static/js/main.22285361.js",
+    "main.css": "/solid-solitaire/static/css/main.821cfb05.css",
+    "main.js": "/solid-solitaire/static/js/main.802c1b37.js",
     "static/media/spider.webp": "/solid-solitaire/static/media/spider.fd7bf3e9bb4a07d481a0.webp",
     "static/media/scarf.jpg": "/solid-solitaire/static/media/scarf.0eb961f1c559b3740b79.jpg",
     "static/media/clubs.svg": "/solid-solitaire/static/media/clubs.d51191ceb38f19f85bc9.svg",
@@ -10,11 +10,11 @@
     "static/media/diamonds.svg": "/solid-solitaire/static/media/diamonds.587172c7924f5e39aa82.svg",
     "static/media/default.svg": "/solid-solitaire/static/media/default.b71ddd9150bc40ac7462.svg",
     "index.html": "/solid-solitaire/index.html",
-    "main.94eab803.css.map": "/solid-solitaire/static/css/main.94eab803.css.map",
-    "main.22285361.js.map": "/solid-solitaire/static/js/main.22285361.js.map"
+    "main.821cfb05.css.map": "/solid-solitaire/static/css/main.821cfb05.css.map",
+    "main.802c1b37.js.map": "/solid-solitaire/static/js/main.802c1b37.js.map"
   },
   "entrypoints": [
-    "static/css/main.94eab803.css",
-    "static/js/main.22285361.js"
+    "static/css/main.821cfb05.css",
+    "static/js/main.802c1b37.js"
   ]
 }
