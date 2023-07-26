@@ -1,20 +1,36 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { cloneElement, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { areaGap, cardDragIndex, cardOffsetModifier, cardStartIndex, zeroSize } from "../constants/cardEngine";
 import getModifiedOffset from "../helpers/getModifiedOffset";
 import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
 import { useAreas } from "../context/areasContext";
 import useEcho from "../hooks/useEcho";
 import useMove from "../hooks/useMove";
+import { usePresets } from "../context/presetsContext";
+import useLock from "../hooks/useLock";
 
 const CardWrapper = ({
     stageWrapper,
-    areaId,
-    id,
+    card,
+    comparisonKey,
+    stayVisible,
+    showOnlyLast,
+    freeMove,
     children
 }) => {
+    const { areaId, id, cardType } = card;
+
     const { moveCards } = useMove();
     const echoAll = useEcho();
     const area = useAreas()[areaId];
+
+    const isHidden = useLock({
+        state: area.cardIds.at(-1) !== id, 
+        lockValue: false,
+        skipLock: !stayVisible
+    });
+
+    const { data, key } = usePresets();
+    const Card = cloneElement(children[0], { card: data[cardType], cardSet: key });
 
     const cursor = useCursorData();
     const updateCursor = useUpdateCursorData();
@@ -71,7 +87,8 @@ const CardWrapper = ({
         moveCards({
             items: cursor.cardIds, 
             from: area.id,
-            to: echoAll(e.clientX, e.clientY, area.id)
+            to: echoAll(e.clientX, e.clientY, area.id),
+            key: freeMove ? undefined : comparisonKey
         });
 
         updateCursor(state => ({
@@ -85,9 +102,15 @@ const CardWrapper = ({
             ref={cardRef}
             style={isDragged ? dragStyle : areaStyle}
             className='bg-lime-700 card-wrapper'
-            onClick={(e) => isDragged ? dropCard(e) : takeCard()}
+            onClick={(e) => {
+                if (!isHidden) {
+                    isDragged ? dropCard(e) : takeCard()
+                }
+            }}
         >
-            {children}
+            {(showOnlyLast && isHidden) ? (
+                children[1]
+            ) : Card}
         </div>
     )
 }

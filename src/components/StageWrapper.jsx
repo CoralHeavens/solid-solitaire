@@ -5,8 +5,11 @@ import AreaElements from "./AreaElements";
 import CardElements from "./CardElements";
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
+import { useUpdatePresets } from "../context/presetsContext";
 import usePush from "../hooks/usePush";
 import useMove from "../hooks/useMove";
+import { SPIDER_AREAS } from "../data/spider/areas";
+import { SPIDER_CARDS } from "../data/spider/cards";
 
 const StageBorder = () => (
     <div className="w-[100.6%] h-[101.1%] -ml-[0.3%] -mt-[0.3%] pointer-events-none rounded-[16px] bg-slate-200" />
@@ -14,8 +17,15 @@ const StageBorder = () => (
 
 const StageWrapper = ({
     className,
-    areas,
-    cards
+    areas = SPIDER_AREAS,
+    cards = SPIDER_CARDS,
+    cardsPresetKey = 'default',
+    comparisonKey = 'category',
+    compareWeights = false,
+    stayVisible = false,
+    freeMove = false,
+    showOnlyLast = false,
+    children,
 }) => {
     const stageRef = useRef();
     const [stageBounds, updateStageBounds] = useState({
@@ -26,8 +36,11 @@ const StageWrapper = ({
     const { moveCards } = useMove();
     const { pushAreas, pushCards } = usePush();
 
+    const presets = require(`../data/cardSets/${cardsPresetKey}.json`)
+
     const updateAreas = useUpdateAreas();
     const updateCards = useUpdateCards();
+    const updatePresets = useUpdatePresets();
     
     const globalAreasArray = Object.keys(useAreas());
     const globalCardsArray = Object.keys(useCards());
@@ -72,21 +85,35 @@ const StageWrapper = ({
         cardIdsArray = []
     ) => {
         const hasCards = cardIdsArray.length !== 0;
-        moveCards({
+        const isSuccess = moveCards({
             items: hasCards ? cardIdsArray : undefined,
             from: fromAreaId,
-            to: toAreaId
+            to: toAreaId,
+            key: freeMove ? undefined : comparisonKey
         })
 
-        return `${hasCards ? cardIdsArray.length : 'All'} items moved from ${fromAreaId} to ${toAreaId}`;
+        return isSuccess ? (
+            `${hasCards ? cardIdsArray.length : 'All'} items moved from ${fromAreaId} to ${toAreaId}`
+        ) : (
+            `Card ${cardIdsArray[0]} cannot be moved to area ${toAreaId}`
+        );
     };
 
     useEffect(() => {
+        updatePresets({
+            key: cardsPresetKey,
+            data: presets,
+            compareWeights
+        });
         pushAreas(areas);
         pushCards(cards);
 
         return global.clearStage;
-    }, [areas, cards, pushAreas, pushCards]);
+    }, [
+        areas, cards, pushAreas, pushCards, 
+        presets, updatePresets,
+        cardsPresetKey, compareWeights
+    ]);
 
     useLayoutEffect(() => {
         const { top, left, width, height } = stageRef.current.getBoundingClientRect();
@@ -112,7 +139,15 @@ const StageWrapper = ({
         >
             <StageBorder />
             <AreaElements />
-            <CardElements stageWrapper={stageBounds} />
+            <CardElements 
+                stageWrapper={stageBounds}
+                comparisonKey={comparisonKey}
+                stayVisible={stayVisible}
+                showOnlyLast={showOnlyLast}
+                freeMove={freeMove}
+            >
+                {children}
+            </CardElements>
 
         </section>
     )
