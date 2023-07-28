@@ -8,6 +8,7 @@ import Cursor from "./Cursor";
 
 const ReactCardEngine = ({ 
     className,
+    cardClassName,
     areas,
     cards,
     cardsPresetKey,
@@ -19,6 +20,8 @@ const ReactCardEngine = ({
     children,
     randomDistribution,
     equalDistribution,
+    lockOnSet,
+    setLength,
     onAreaUpdate,
 }) => (
     <CursorContextStore.Provider>
@@ -38,6 +41,9 @@ const ReactCardEngine = ({
                         freeMove={freeMove}
                         randomDistribution={randomDistribution}
                         equalDistribution={equalDistribution}
+                        lockOnSet={lockOnSet}
+                        setLength={setLength}
+                        cardClassName={cardClassName}
                         onAreaUpdate={onAreaUpdate}
                     >
                         {children}

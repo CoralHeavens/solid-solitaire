@@ -1,6 +1,8 @@
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
 import { usePresets } from "../context/presetsContext";
+import { checkCardSet } from "../helpers/checkSequence";
+import usePush from "./usePush";
 
 const useMove = () => {
     const updateCards = useUpdateCards();
@@ -8,6 +10,8 @@ const useMove = () => {
     const areas = useAreas();
     const cards = useCards();
     const { data: presets, compareWeights: useWeight } = usePresets();
+
+    const { pushToAreaCardIds } = usePush();
 
     const updateCardsAreaId = (items, areaId) => (
         updateCards(state => {
@@ -17,28 +21,20 @@ const useMove = () => {
         })
     );
 
-    const pushToAreaCardIds = (items, areaId) => (
-        updateAreas(state => (
-            {
-                ...state,
-                [areaId]: {
-                    ...state[areaId],
-                    cardIds: [...state[areaId].cardIds, ...items]
-                }
-            }
-        ))
-    )
-
-    const cutFromAreaCards = (items, id) => (
-        updateAreas(state => (
-            {
+    const cutFromAreaCards = (items, id, lockOnSet, setLength) => (
+        updateAreas(state => {
+            const newCardIds = state[id].cardIds.filter(cardId => items.indexOf(cardId) === -1);
+            const isSet = checkCardSet(newCardIds, setLength, cards, presets);
+            return {
                 ...state,
                 [id]: {
                     ...state[id],
-                    cardIds: state[id].cardIds.filter(cardId => items.indexOf(cardId) === -1)
+                    cardIds: newCardIds,
+                    isSet,
+                    isLocked: lockOnSet && isSet
                 }
             }
-        ))
+        })
     )
 
     const compareCards = ({
@@ -58,20 +54,23 @@ const useMove = () => {
     }
 
     const moveCards = ({
-        items, from, to, key, callback = () => {}
+        items, from, to, key, lockOnSet, setLength, callback = () => {}
     }) => {
         if (from === to) return;
         if (!items) items = areas[from].cardIds;
 
-        const isAppliable = compareCards({
-            fromId: items[0],
-            toId: areas[to].cardIds.at(-1),
-            key
-        });
+        
+        const isAppliable = (!areas[from].isLocked && !areas[to].isLocked) && (
+            compareCards({
+                fromId: items[0],
+                toId: areas[to].cardIds.at(-1),
+                key
+            })
+        );
 
         if (isAppliable) {
-            cutFromAreaCards(items, from);
-            pushToAreaCardIds(items, to);
+            cutFromAreaCards(items, from, lockOnSet, setLength);
+            pushToAreaCardIds(items, to, cards, lockOnSet, setLength);
             updateCardsAreaId(items, to);
 
             callback({

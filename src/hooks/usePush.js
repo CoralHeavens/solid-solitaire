@@ -1,6 +1,8 @@
 import { useCallback } from "react";
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
+import { checkCardSet } from "../helpers/checkSequence";
+import { usePresets } from "../context/presetsContext";
 
 const usePush = () => {
     const updateAreas = useUpdateAreas();
@@ -8,6 +10,7 @@ const usePush = () => {
     const globalAreas = useAreas();
     const globalCards = useCards();
     const areasAmount = Object.keys(globalAreas).length;
+    const { data: presets } = usePresets();
 
     const generateAreas = ({
         newAreas = [], 
@@ -20,7 +23,9 @@ const usePush = () => {
                 [id]: {
                     ...area,
                     id,
-                    cardIds: []
+                    cardIds: [],
+                    isLocked: false,
+                    isSet: false,
                 }
             }
         }, {})
@@ -66,35 +71,39 @@ const usePush = () => {
         ))
     }, [updateAreas]);
 
-    const pushCards = useCallback(
-        (newCards = [], randomDistribution = false, equalDistribution = false) => {
-        updateCards(state => (
-            {
+    const pushToAreaCardIds = useCallback((items, areaId, cards, lockOnSet, setLength) => (
+        updateAreas(state => {
+            const newCardIds = [...state[areaId].cardIds, ...items];
+            const isSet = checkCardSet(newCardIds, setLength, cards, presets);
+            return {
                 ...state,
-                ...generateCards({
-                    newCards, 
-                    initialId: Object.keys(state).length - 1, 
-                    randomDistribution, 
-                    equalDistribution,
-                    callback: (areaId, cardId) => {
-                        updateAreas(state => {
-                            const cardIds = state[areaId]?.cardIds ?? [];
-                            return {
-                                ...state,
-                                [areaId]: {
-                                    ...state[areaId],
-                                    cardIds: [
-                                        ...cardIds, 
-                                        cardId
-                                    ]
-                                }
-                            }
-                        })
-                    }
-                })
+                [areaId]: {
+                    ...state[areaId],
+                    cardIds: newCardIds,
+                    isSet,
+                    isLocked: lockOnSet && isSet,
+                }
             }
-        ))
-    }, [updateCards, updateAreas, generateCards]);
+        })
+    ), [updateAreas, presets]);
+
+    const pushCards = useCallback(
+        (newCards = [], randomDistribution = false, equalDistribution = false, lockOnSet, setLength) => (
+            updateCards(state => (
+                {
+                    ...state,
+                    ...generateCards({
+                        newCards, 
+                        initialId: Object.keys(state).length - 1, 
+                        randomDistribution,
+                        equalDistribution,
+                        callback: (areaId, cardId) => {
+                            pushToAreaCardIds([cardId], areaId, state, lockOnSet, setLength);
+                        }
+                    })
+                }
+            ))
+        ), [updateCards, generateCards, pushToAreaCardIds]);
 
     const initialPush = useCallback(({
         newAreas, 
@@ -120,7 +129,7 @@ const usePush = () => {
         updateCards(cards);
     }, [updateAreas, updateCards, generateCards, areasAmount, globalAreas, globalCards])
 
-    return { pushAreas, pushCards, initialPush }
+    return { pushAreas, pushCards, initialPush, pushToAreaCardIds }
 }
 
 export default usePush;
