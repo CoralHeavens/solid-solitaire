@@ -4,7 +4,6 @@ import { cursorOffset } from "../constants/cardEngine";
 import joinClassNames from "../helpers/joinClassNames";
 
 const Cursor = ({
-    cursorName = 'default',
     size = 30,
     hide = false,
 }) => {
@@ -28,7 +27,7 @@ const Cursor = ({
 
     return (cursor?.x && cursor?.y && !cursor?.hidden) ? (
         <img 
-            src={require(`../svg/cursor/${cursorName}.svg`)} 
+            src={require(`../svg/cursor.svg`)} 
             className={joinClassNames(
                 "absolute z-[9999] pointer-events-none rotate-[290deg]",
                 hide && 'hidden'

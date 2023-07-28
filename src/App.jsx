@@ -47,7 +47,7 @@ function App() {
         {route?.component}
         
         <footer className='absolute bottom-2 opacity-30'>
-          <a className='text-base' href={footerLink}>
+          <a className='text-base cursor-pointer' href={footerLink}>
             {footerMessage}
           </a>
         </footer>

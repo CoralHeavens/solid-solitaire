@@ -17,6 +17,9 @@ const ReactCardEngine = ({
     showOnlyLast,
     freeMove,
     children,
+    randomDistribution,
+    equalDistribution,
+    onAreaUpdate,
 }) => (
     <CursorContextStore.Provider>
         <AreasContextStore.Provider>
@@ -33,6 +36,9 @@ const ReactCardEngine = ({
                         stayVisible={stayVisible}
                         showOnlyLast={showOnlyLast}
                         freeMove={freeMove}
+                        randomDistribution={randomDistribution}
+                        equalDistribution={equalDistribution}
+                        onAreaUpdate={onAreaUpdate}
                     >
                         {children}
                     </StageWrapper>

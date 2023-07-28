@@ -19,12 +19,15 @@ const StageWrapper = ({
     className,
     areas = SPIDER_AREAS,
     cards = SPIDER_CARDS,
-    cardsPresetKey = 'default',
+    cardPresets = require(`../data/default/cards.json`),
     comparisonKey = 'category',
     compareWeights = false,
     stayVisible = false,
     freeMove = false,
     showOnlyLast = false,
+    randomDistribution = false,
+    equalDistribution = false,
+    onAreaUpdate = () => {},
     children,
 }) => {
     const stageRef = useRef();
@@ -34,16 +37,17 @@ const StageWrapper = ({
     });
 
     const { moveCards } = useMove();
-    const { pushAreas, pushCards } = usePush();
-
-    const presets = require(`../data/cardSets/${cardsPresetKey}.json`)
+    const { pushAreas, pushCards, initialPush } = usePush();
 
     const updateAreas = useUpdateAreas();
     const updateCards = useUpdateCards();
     const updatePresets = useUpdatePresets();
-    
-    const globalAreasArray = Object.keys(useAreas());
-    const globalCardsArray = Object.keys(useCards());
+
+    const globalAreas = useAreas();
+    const globalCards = useCards();
+
+    const globalAreasArray = Object.keys(globalAreas);
+    const globalCardsArray = Object.keys(globalCards);
 
     global.clearStage = () => {
         updateAreas({});
@@ -89,7 +93,8 @@ const StageWrapper = ({
             items: hasCards ? cardIdsArray : undefined,
             from: fromAreaId,
             to: toAreaId,
-            key: freeMove ? undefined : comparisonKey
+            key: freeMove ? undefined : comparisonKey,
+            callback: onAreaUpdate
         })
 
         return isSuccess ? (
@@ -99,20 +104,33 @@ const StageWrapper = ({
         );
     };
 
+    global.getCard = (id) => {
+        if (id) return globalCards[id];
+        return globalCards;
+    }
+
+    global.getArea = (id) => {
+        if (!id)  return globalAreas;
+        return globalAreas[id];
+    }
+
     useEffect(() => {
         updatePresets({
-            key: cardsPresetKey,
-            data: presets,
+            data: cardPresets,
             compareWeights
         });
-        pushAreas(areas);
-        pushCards(cards);
+        initialPush({
+            newAreas: areas, 
+            newCards: cards, 
+            randomDistribution, 
+            equalDistribution
+        })
 
         return global.clearStage;
     }, [
-        areas, cards, pushAreas, pushCards, 
-        presets, updatePresets,
-        cardsPresetKey, compareWeights
+        areas, cards, initialPush,
+        cardPresets, updatePresets, compareWeights,
+        equalDistribution, randomDistribution
     ]);
 
     useLayoutEffect(() => {
@@ -145,6 +163,7 @@ const StageWrapper = ({
                 stayVisible={stayVisible}
                 showOnlyLast={showOnlyLast}
                 freeMove={freeMove}
+                onAreaUpdate={onAreaUpdate}
             >
                 {children}
             </CardElements>

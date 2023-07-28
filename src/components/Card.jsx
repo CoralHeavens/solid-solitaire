@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 const Card = ({
-    card, cardSet
+    card
 }) => {
     const { label, category } = card;
 
@@ -9,13 +9,13 @@ const Card = ({
 
     const sign = useMemo(() => (
         <img 
-            src={require(`../svg/cardSets/${cardSet}/sign/${category}.svg`)} 
+            src={require(`../data/default/sign/${category}.svg`)} 
             className="pointer-events-none"
             width={size} 
             height={size}
             alt=''
         />
-    ), [cardSet, category]);
+    ), [category]);
 
     return (  
         <div className="bg-white w-full h-full flex justify-between items-center flex-col rounded-lg">
