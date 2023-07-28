@@ -1,7 +1,7 @@
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
 import { usePresets } from "../context/presetsContext";
-import { checkCardSet } from "../helpers/checkSequence";
+import { checkCardSet } from "../helpers/checkCards";
 import usePush from "./usePush";
 
 const useMove = () => {

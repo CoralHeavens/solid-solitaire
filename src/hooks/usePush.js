@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
-import { checkCardSet } from "../helpers/checkSequence";
+import { checkCardSet } from "../helpers/checkCards";
 import { usePresets } from "../context/presetsContext";
 
 const usePush = () => {

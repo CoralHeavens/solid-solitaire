@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { zeroSize } from "../constants/cardEngine";
 import getModifiedOffset from "../helpers/getModifiedOffset";
+import joinClassNames from "../helpers/joinClassNames";
 
 const StickyArea = ({
     area
@@ -9,7 +10,10 @@ const StickyArea = ({
     
     const areaRef = useRef();
     const [areaSize, updateAreaSize] = useState(zeroSize);
-    const { x: left, y: top } = getModifiedOffset(areaSize, positionModifier);
+    const areaStyle = positionModifier ? {
+        left: getModifiedOffset(areaSize, positionModifier).x,
+        top: getModifiedOffset(areaSize, positionModifier).y
+    } : {};
 
     useLayoutEffect(() => {
         updateAreaSize(areaRef.current.getBoundingClientRect())
@@ -19,8 +23,11 @@ const StickyArea = ({
         <div
             id={id}
             ref={areaRef}
-            className='area-border area-wrapper'
-            style={{ left, top, }}
+            className={joinClassNames(
+                'area-border area-wrapper',
+                positionModifier && 'absolute'
+            )}
+            style={areaStyle}
         />
     )
 }
