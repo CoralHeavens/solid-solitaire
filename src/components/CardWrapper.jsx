@@ -1,6 +1,5 @@
 import React, { cloneElement, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { areaGap, cardDragIndex, cardOffsetModifier, cardStartIndex, zeroSize } from "../constants/cardEngine";
-import getModifiedOffset from "../helpers/getModifiedOffset";
 import { useCursorData, useUpdateCursorData } from "../context/cursorContext";
 import { useAreas } from "../context/areasContext";
 import useEcho from "../hooks/useEcho";
@@ -42,16 +41,16 @@ const CardWrapper = ({
 
     const cardRef = useRef();
     const [cardSize, updateCardSize] = useState(zeroSize);
-
-    const areaOffset = getModifiedOffset(cardSize, area.positionModifier);
     const areaIndex = area.cardIds.indexOf(id);
 
     const dragIndex = cursor.cardIds.indexOf(id);
     const isDragged = dragIndex >= 0;
 
+    const areaPos = useMemo(() => document.getElementById(areaId).getBoundingClientRect(), [areaId]);
+
     const areaStyle = {
-        left: areaOffset.x + (areaGap.x * areaIndex), 
-        top: areaOffset.y + (areaGap.y * areaIndex),
+        left: areaPos.x - stageWrapper.offset.x + (areaGap.x * areaIndex), 
+        top: areaPos.y - stageWrapper.offset.y + (areaGap.y * areaIndex),
         zIndex: cardStartIndex + areaIndex
     }
 

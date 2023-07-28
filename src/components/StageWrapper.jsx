@@ -12,7 +12,7 @@ import { SPIDER_AREAS } from "../data/spider/areas";
 import { SPIDER_CARDS } from "../data/spider/cards";
 
 const StageBorder = () => (
-    <div className="w-[100.6%] h-[101.1%] -ml-[0.3%] -mt-[0.3%] pointer-events-none rounded-[16px] bg-slate-200" />
+    <div className="w-[100.6%] h-[101.1%] -ml-[0.3%] -mt-[0.3%] pointer-events-none rounded-[16px] bg-slate-200 absolute z-10" />
 )
 
 const StageWrapper = ({

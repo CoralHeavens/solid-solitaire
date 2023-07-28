@@ -1,10 +1,12 @@
-### version 0.1.3 ###
+### version 0.1.5 ###
 
 ## Info:
 - Routing depends on localstorage info
 - Drag and drop invokes by clicking on cards
 - Drag position depends on cursor position
 - Basic cards functionality was separated from main app and will be moved to package
+- Cards applies to areas getting offset directly from element by id
+- Stage is flex and areas are not absolute so layout can be changed easily
 
 ## Features:
 - Game mode menu
@@ -15,6 +17,8 @@
 - Hidden state for cards
 - Card revealing if the card is the last at area
 - Card revealed state saves even if the card was covered again
+- Area locks if is has full card set
+- All cards reveales if the area is locked
 
 ## Console controls:
 
@@ -85,6 +89,10 @@
         Type: string
         Default: undefined
 )
+    Functuion:
+        Get card by id
+    Return:
+        Card by id or all cards
 
 - # getArea(
 
@@ -93,3 +101,19 @@
         Type: string
         Default: undefined
 )
+    Function:
+        Get area by id
+    Return:
+        Area by id or all areas
+
+- # lockArea(
+
+    # id:
+        Id of area which should be locked, id is required
+        Type: string
+        Default: undefined
+)
+    Function:
+        Locks area by id
+    Return:
+        Id of locked area
