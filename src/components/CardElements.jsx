@@ -14,6 +14,7 @@ const CardElements = ({
     stayVisible,
     showOnlyLast,
     freeMove,
+    onAreaUpdate,
     children = []
 }) => {
     const cards = useCards();
@@ -28,6 +29,7 @@ const CardElements = ({
                 showOnlyLast={showOnlyLast}
                 stayVisible={stayVisible}
                 freeMove={freeMove}
+                onAreaUpdate={onAreaUpdate}
             >
                 {children[0] ?? <Card />}
                 {children[1] ?? <HiddenCard />}

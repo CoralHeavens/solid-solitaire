@@ -58,7 +58,7 @@ const useMove = () => {
     }
 
     const moveCards = ({
-        items, from, to, key
+        items, from, to, key, callback = () => {}
     }) => {
         if (from === to) return;
         if (!items) items = areas[from].cardIds;
@@ -73,6 +73,12 @@ const useMove = () => {
             cutFromAreaCards(items, from);
             pushToAreaCardIds(items, to);
             updateCardsAreaId(items, to);
+
+            callback({
+                from: areas[from],
+                to: areas[to],
+                items: items.map((id) => cards[id])
+            })
         }
 
         return isAppliable;

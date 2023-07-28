@@ -1,5 +1,33 @@
 [
     {
+        "id": "two",
+        "label": "2",
+        "img": "",
+        "category": "diamonds",
+        "weight": 2
+    },
+    {
+        "id": "three",
+        "label": "3",
+        "img": "",
+        "category": "diamonds",
+        "weight": 3
+    },
+    {
+        "id": "four",
+        "label": "4",
+        "img": "",
+        "category": "diamonds",
+        "weight": 4
+    },
+    {
+        "id": "five",
+        "label": "5",
+        "img": "",
+        "category": "diamonds",
+        "weight": 5
+    },
+    {
         "id": "six",
         "label": "6",
         "img": "",
@@ -64,6 +92,34 @@
     },
 
     {
+        "id": "two",
+        "label": "2",
+        "img": "",
+        "category": "hearts",
+        "weight": 2
+    },
+    {
+        "id": "three",
+        "label": "3",
+        "img": "",
+        "category": "hearts",
+        "weight": 3
+    },
+    {
+        "id": "four",
+        "label": "4",
+        "img": "",
+        "category": "hearts",
+        "weight": 4
+    },
+    {
+        "id": "five",
+        "label": "5",
+        "img": "",
+        "category": "hearts",
+        "weight": 5
+    },
+    {
         "id": "six",
         "label": "6",
         "img": "",
@@ -128,6 +184,34 @@
     },
 
     {
+        "id": "two",
+        "label": "2",
+        "img": "",
+        "category": "clubs",
+        "weight": 2
+    },
+    {
+        "id": "three",
+        "label": "3",
+        "img": "",
+        "category": "clubs",
+        "weight": 3
+    },
+    {
+        "id": "four",
+        "label": "4",
+        "img": "",
+        "category": "clubs",
+        "weight": 4
+    },
+    {
+        "id": "five",
+        "label": "5",
+        "img": "",
+        "category": "clubs",
+        "weight": 5
+    },
+    {
         "id": "six",
         "label": "6",
         "img": "",
@@ -191,6 +275,34 @@
         "weight": 14
     },
 
+    {
+        "id": "two",
+        "label": "2",
+        "img": "",
+        "category": "spades",
+        "weight": 2
+    },
+    {
+        "id": "three",
+        "label": "3",
+        "img": "",
+        "category": "spades",
+        "weight": 3
+    },
+    {
+        "id": "four",
+        "label": "4",
+        "img": "",
+        "category": "spades",
+        "weight": 4
+    },
+    {
+        "id": "five",
+        "label": "5",
+        "img": "",
+        "category": "spades",
+        "weight": 5
+    },
     {
         "id": "six",
         "label": "6",

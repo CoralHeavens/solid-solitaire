@@ -1,17 +1,30 @@
 import React from "react";
-import { SPIDER_AREAS } from "../data/spider/areas";
-import { SPIDER_CARDS } from "../data/spider/cards";
 import ReactCardEngine from "./ReactCardEngine";
+import arrayToObject from '../helpers/arrayToObject';
+import getShuffledBlankArray from "../helpers/getShuffledBlankArray";
 
 const Spider = () => {
+    const AREAS = require('../data/default/areas.json');
+    const SHUFFLED_SET = getShuffledBlankArray(
+        require('../data/default/cards.json'), 
+        (index) => ({ cardType: `${index}` })
+    );
+    const CARDS = [...SHUFFLED_SET, ...SHUFFLED_SET];
+
+    const onAreaUpdate = ({ from, to, items }) => {
+        // console.log(arrayToObject(items));
+    }
+
     return (
         <ReactCardEngine
             className={'field bg-slate-200'}
-            areas={SPIDER_AREAS}
-            cards={SPIDER_CARDS}
+            areas={AREAS}
+            cards={CARDS.slice(0, 54)}
             compareWeights
             showOnlyLast
             stayVisible
+            randomDistribution
+            onAreaUpdate={onAreaUpdate}
         >
             { /*
                 You can pass element here to render as a card

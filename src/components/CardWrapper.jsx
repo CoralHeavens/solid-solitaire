@@ -15,6 +15,7 @@ const CardWrapper = ({
     stayVisible,
     showOnlyLast,
     freeMove,
+    onAreaUpdate,
     children
 }) => {
     const { areaId, id, cardType } = card;
@@ -88,7 +89,8 @@ const CardWrapper = ({
             items: cursor.cardIds, 
             from: area.id,
             to: echoAll(e.clientX, e.clientY, area.id),
-            key: freeMove ? undefined : comparisonKey
+            key: freeMove ? undefined : comparisonKey,
+            callback: onAreaUpdate
         });
 
         updateCursor(state => ({

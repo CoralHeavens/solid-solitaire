@@ -1,15 +1,20 @@
-### version 0.1.1 ###
+### version 0.1.2 ###
 
 ## Info:
 - Routing depends on localstorage info
 - Drag and drop invokes by clicking on cards
 - Drag position depends on cursor position
+- Basic cards functionality was separated from main app and will be moved to package
 
 ## Features:
 - Game mode menu
 - Drag and drop for cards
 - Multiple drag and drop for moving more than one card at once
 - Stage control via console
+- Cards compatibility which uses category and weight parameters
+- Hidden state for cards
+- Card revealing if the card is the last at area
+- Card revealed state saves even if the card was covered again
 
 ## Console controls:
 
@@ -72,3 +77,19 @@
         Move cards from one area to another
     Return:
         Message with amount of cards moved, from and to area ids
+
+- # getCard(
+
+    # id:
+        Id of card to return, returns all cards if undefined
+        Type: string
+        Default: undefined
+)
+
+- # getArea(
+
+    # id:
+        Id of area to return, returns all areas if undefined
+        Type: string
+        Default: undefined
+)
