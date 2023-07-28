@@ -27,6 +27,9 @@ const StageWrapper = ({
     showOnlyLast = false,
     randomDistribution = false,
     equalDistribution = false,
+    lockOnSet = false,
+    setLength = 13,
+    cardClassName,
     onAreaUpdate = () => {},
     children,
 }) => {
@@ -94,6 +97,8 @@ const StageWrapper = ({
             from: fromAreaId,
             to: toAreaId,
             key: freeMove ? undefined : comparisonKey,
+            lockOnSet,
+            setLength,
             callback: onAreaUpdate
         })
 
@@ -112,6 +117,18 @@ const StageWrapper = ({
     global.getArea = (id) => {
         if (!id)  return globalAreas;
         return globalAreas[id];
+    }
+
+    global.lockArea = (id) => {
+        if (!id) return undefined;
+        updateAreas(state => ({
+            ...state,
+            [id]: {
+                ...state[id],
+                isLocked: !state[id].isLocked
+            }
+        }));
+        return id;
     }
 
     useEffect(() => {
@@ -163,6 +180,9 @@ const StageWrapper = ({
                 stayVisible={stayVisible}
                 showOnlyLast={showOnlyLast}
                 freeMove={freeMove}
+                lockOnSet={lockOnSet}
+                setLength={setLength}
+                cardClassName={cardClassName}
                 onAreaUpdate={onAreaUpdate}
             >
                 {children}

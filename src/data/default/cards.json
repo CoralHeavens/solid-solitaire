@@ -1,5 +1,12 @@
 [
     {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "diamonds",
+        "weight": 1
+    },
+    {
         "id": "two",
         "label": "2",
         "img": "",
@@ -82,16 +89,16 @@
         "img": "",
         "category": "diamonds",
         "weight": 13
-    },
-    {
-        "id": "ace",
-        "label": "A",
-        "img": "",
-        "category": "diamonds",
-        "weight": 14
     },
 
     {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "hearts",
+        "weight": 1
+    },
+    {
         "id": "two",
         "label": "2",
         "img": "",
@@ -174,16 +181,16 @@
         "img": "",
         "category": "hearts",
         "weight": 13
-    },
-    {
-        "id": "ace",
-        "label": "A",
-        "img": "",
-        "category": "hearts",
-        "weight": 14
     },
 
     {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "clubs",
+        "weight": 1
+    },
+    {
         "id": "two",
         "label": "2",
         "img": "",
@@ -266,16 +273,16 @@
         "img": "",
         "category": "clubs",
         "weight": 13
-    },
-    {
-        "id": "ace",
-        "label": "A",
-        "img": "",
-        "category": "clubs",
-        "weight": 14
     },
 
     {
+        "id": "ace",
+        "label": "A",
+        "img": "",
+        "category": "spades",
+        "weight": 1
+    },
+    {
         "id": "two",
         "label": "2",
         "img": "",
@@ -358,12 +365,5 @@
         "img": "",
         "category": "spades",
         "weight": 13
-    },
-    {
-        "id": "ace",
-        "label": "A",
-        "img": "",
-        "category": "spades",
-        "weight": 14
     }
 ]

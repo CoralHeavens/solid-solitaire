@@ -1,6 +1,6 @@
 import React from "react";
 import ReactCardEngine from "./ReactCardEngine";
-import arrayToObject from '../helpers/arrayToObject';
+// import arrayToObject from '../helpers/arrayToObject';
 import getShuffledBlankArray from "../helpers/getShuffledBlankArray";
 
 const Spider = () => {
@@ -19,11 +19,13 @@ const Spider = () => {
         <ReactCardEngine
             className={'field bg-slate-200'}
             areas={AREAS}
-            cards={CARDS.slice(0, 54)}
+            // cards={CARDS.slice(0, 54)}
+            cards={Array.from({length: 14}).map((_, index) => ({ cardType: index, areaId: 'area_1' }))}
             compareWeights
             showOnlyLast
             stayVisible
             randomDistribution
+            lockOnSet
             onAreaUpdate={onAreaUpdate}
         >
             { /*

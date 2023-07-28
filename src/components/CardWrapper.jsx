@@ -7,14 +7,18 @@ import useEcho from "../hooks/useEcho";
 import useMove from "../hooks/useMove";
 import { usePresets } from "../context/presetsContext";
 import useLock from "../hooks/useLock";
+import joinClassNames from "../helpers/joinClassNames";
 
 const CardWrapper = ({
     stageWrapper,
     card,
+    cardClassName,
     comparisonKey,
     stayVisible,
     showOnlyLast,
     freeMove,
+    lockOnSet,
+    setLength,
     onAreaUpdate,
     children
 }) => {
@@ -25,7 +29,7 @@ const CardWrapper = ({
     const area = useAreas()[areaId];
 
     const isHidden = useLock({
-        state: area.cardIds.at(-1) !== id, 
+        state: !area.isLocked && area.cardIds.at(-1) !== id, 
         lockValue: false,
         skipLock: !stayVisible
     });
@@ -90,6 +94,8 @@ const CardWrapper = ({
             from: area.id,
             to: echoAll(e.clientX, e.clientY, area.id),
             key: freeMove ? undefined : comparisonKey,
+            lockOnSet,
+            setLength,
             callback: onAreaUpdate
         });
 
@@ -103,9 +109,12 @@ const CardWrapper = ({
         <div
             ref={cardRef}
             style={isDragged ? dragStyle : areaStyle}
-            className='bg-lime-700 card-wrapper'
+            className={joinClassNames(
+                'bg-lime-700 card-wrapper',
+                cardClassName
+            )}
             onClick={(e) => {
-                if (!isHidden) {
+                if (!isHidden && !area.isLocked) {
                     isDragged ? dropCard(e) : takeCard()
                 }
             }}
