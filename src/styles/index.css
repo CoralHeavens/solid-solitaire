@@ -20,7 +20,7 @@ a, button {
 }
 
 .field {
-    @apply w-full h-full rounded-lg flex justify-evenly
+    @apply w-full h-full rounded-lg flex justify-evenly items-start
 }
 
 .field * {
@@ -31,12 +31,24 @@ a, button {
     @apply pointer-events-none
 }
 
+.absolute-children > {
+    @apply absolute
+}
+
+.wrapper-size {
+    @apply w-[9.5%] aspect-[2/3] rounded-xl min-w-[95px] max-w-[140px] max-h-[210px]
+}
+
 .area-wrapper {
-    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children min-w-[95px] max-w-[140px] max-h-[210px]
+    @apply wrapper-size p-1.5 no-pointer-children 
 }
 
 .card-wrapper {
-    @apply rounded-xl w-[10%] aspect-[2/3] p-1.5 no-pointer-children absolute min-w-[95px] max-w-[140px] max-h-[210px] shadow-2xl
+    @apply wrapper-size p-1.5 no-pointer-children absolute shadow-2xl
+}
+
+.hand-wrapper {
+    @apply wrapper-size p-1.5 no-pointer-children absolute shadow-2xl z-[99]
 }
 
 .area-border {

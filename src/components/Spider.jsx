@@ -20,6 +20,7 @@ const Spider = () => {
             className={'field bg-slate-200'}
             areas={AREAS}
             cards={CARDS.slice(0, 54)}
+            handCards={CARDS.slice(54)}
             // cards={Array.from({length: 14}).map((_, index) => ({ cardType: index, areaId: 'area_1' }))}
             compareWeights
             showOnlyLast

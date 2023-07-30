@@ -37,13 +37,13 @@ const usePush = () => {
         randomDistribution, 
         equalDistribution,
         callback = () => {}
-    }) => {
-        return newCards.reduce((o, card, index) => {
+    }) => (
+        newCards.reduce((o, card, index) => {
             const id = `card_${initialId + index}`;
             const areaId = (
                 card.areaId ? card.areaId :
                 randomDistribution ? `area_${Math.floor(Math.random() * areasAmount)}` :
-                'area_0'
+                `area_${index}`
             );
 
             callback(areaId, id);
@@ -57,7 +57,7 @@ const usePush = () => {
                 }
             }
         }, {})
-    }, [areasAmount])
+    ), [areasAmount])
 
     const pushAreas = useCallback((newAreas = []) => {
         updateAreas(state => (
@@ -71,9 +71,11 @@ const usePush = () => {
         ))
     }, [updateAreas]);
 
-    const pushToAreaCardIds = useCallback((items, areaId, cards, lockOnSet, setLength) => (
+    const pushToAreaCardIds = useCallback((items, areaId, cards, lockOnSet, setLength) => {
+        if (items.length === 0) return;
         updateAreas(state => {
             const newCardIds = [...state[areaId].cardIds, ...items];
+            console.log(newCardIds);
             const isSet = checkCardSet(newCardIds, setLength, cards, presets);
             return {
                 ...state,
@@ -85,10 +87,16 @@ const usePush = () => {
                 }
             }
         })
-    ), [updateAreas, presets]);
+    }, [updateAreas, presets]);
 
     const pushCards = useCallback(
-        (newCards = [], randomDistribution = false, equalDistribution = false, lockOnSet, setLength) => (
+        ({
+            newCards = [], 
+            randomDistribution = false, 
+            equalDistribution = false, 
+            lockOnSet, 
+            setLength
+        }) => (
             updateCards(state => (
                 {
                     ...state,
@@ -98,6 +106,7 @@ const usePush = () => {
                         randomDistribution,
                         equalDistribution,
                         callback: (areaId, cardId) => {
+                            console.log(areaId, cardId);
                             pushToAreaCardIds([cardId], areaId, state, lockOnSet, setLength);
                         }
                     })

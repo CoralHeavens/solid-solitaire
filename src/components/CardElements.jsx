@@ -18,7 +18,7 @@ const CardElements = ({
     setLength,
     onAreaUpdate,
     cardClassName,
-    children = []
+    children
 }) => {
     const cards = useCards();
 
@@ -37,8 +37,7 @@ const CardElements = ({
                 cardClassName={cardClassName}
                 onAreaUpdate={onAreaUpdate}
             >
-                {children[0] ?? <Card />}
-                {children[1] ?? <HiddenCard />}
+                {children}
             </CardWrapper>
         ))
     )
