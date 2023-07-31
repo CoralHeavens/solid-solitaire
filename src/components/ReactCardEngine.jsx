@@ -11,6 +11,7 @@ const ReactCardEngine = ({
     cardClassName,
     areas,
     cards,
+    handCards,
     cardsPresetKey,
     comparisonKey,
     compareWeights,
@@ -33,6 +34,7 @@ const ReactCardEngine = ({
                         className={className}
                         areas={areas}
                         cards={cards}
+                        handCards={handCards}
                         cardsPresetKey={cardsPresetKey}
                         comparisonKey={comparisonKey}
                         compareWeights={compareWeights}

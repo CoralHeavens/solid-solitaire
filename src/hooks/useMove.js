@@ -2,7 +2,6 @@ import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
 import { usePresets } from "../context/presetsContext";
 import { checkCardSet } from "../helpers/checkCards";
-import usePush from "./usePush";
 
 const useMove = () => {
     const updateCards = useUpdateCards();
@@ -10,8 +9,6 @@ const useMove = () => {
     const areas = useAreas();
     const cards = useCards();
     const { data: presets, compareWeights: useWeight } = usePresets();
-
-    const { pushToAreaCardIds } = usePush();
 
     const updateCardsAreaId = (items, areaId) => (
         updateCards(state => {
@@ -21,21 +18,21 @@ const useMove = () => {
         })
     );
 
-    const cutFromAreaCards = (items, id, lockOnSet, setLength) => (
-        updateAreas(state => {
-            const newCardIds = state[id].cardIds.filter(cardId => items.indexOf(cardId) === -1);
-            const isSet = checkCardSet(newCardIds, setLength, cards, presets);
-            return {
-                ...state,
-                [id]: {
-                    ...state[id],
-                    cardIds: newCardIds,
-                    isSet,
-                    isLocked: lockOnSet && isSet
-                }
-            }
-        })
-    )
+    // const cutFromAreaCards = (items, id, lockOnSet, setLength) => (
+    //     updateAreas(state => {
+    //         const newCardIds = state[id].cardIds.filter(cardId => items.indexOf(cardId) === -1);
+    //         const isSet = checkCardSet(newCardIds, setLength, cards, presets);
+    //         return {
+    //             ...state,
+    //             [id]: {
+    //                 ...state[id],
+    //                 cardIds: newCardIds,
+    //                 isSet,
+    //                 isLocked: lockOnSet && isSet
+    //             }
+    //         }
+    //     })
+    // )
 
     const compareCards = ({
         fromId, toId, key
@@ -69,8 +66,25 @@ const useMove = () => {
         );
 
         if (isAppliable) {
-            cutFromAreaCards(items, from, lockOnSet, setLength);
-            pushToAreaCardIds(items, to, cards, lockOnSet, setLength);
+            // cutFromAreaCards(items, from, lockOnSet, setLength);
+            const localAreas = {...areas};
+
+            const newCardIds = localAreas[from].cardIds.filter(cardId => items.indexOf(cardId) === -1);
+            const isSet = checkCardSet(newCardIds, setLength, cards, presets);
+            localAreas[from] = {
+                ...localAreas[from],
+                cardIds: newCardIds,
+                isSet,
+                isLocked: lockOnSet && isSet
+            };
+            localAreas[to] = {
+                ...localAreas[to],
+                cardIds: [
+                    ...localAreas[to].cardIds,
+                    ...items
+                ]
+            };
+            updateAreas(localAreas);
             updateCardsAreaId(items, to);
 
             callback({

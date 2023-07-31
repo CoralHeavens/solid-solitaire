@@ -1,9 +1,7 @@
 import React from "react";
 import { useCards } from "../context/cardsContext";
 import CardWrapper from "./CardWrapper";
-import Card from "./Card";
 import { zeroPoint } from "../constants/cardEngine";
-import HiddenCard from "./HiddenCard";
 
 const CardElements = ({ 
     stageWrapper = { 
@@ -18,7 +16,7 @@ const CardElements = ({
     setLength,
     onAreaUpdate,
     cardClassName,
-    children = []
+    children
 }) => {
     const cards = useCards();
 
@@ -37,8 +35,7 @@ const CardElements = ({
                 cardClassName={cardClassName}
                 onAreaUpdate={onAreaUpdate}
             >
-                {children[0] ?? <Card />}
-                {children[1] ?? <HiddenCard />}
+                {children}
             </CardWrapper>
         ))
     )

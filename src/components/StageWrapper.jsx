@@ -10,6 +10,9 @@ import usePush from "../hooks/usePush";
 import useMove from "../hooks/useMove";
 import { SPIDER_AREAS } from "../data/spider/areas";
 import { SPIDER_CARDS } from "../data/spider/cards";
+import Card from "./Card";
+import HiddenCard from "./HiddenCard";
+import Hand from "./Hand";
 
 const StageBorder = () => (
     <div className="w-[100.6%] h-[101.1%] -ml-[0.3%] -mt-[0.3%] pointer-events-none rounded-[16px] bg-slate-200 absolute z-10" />
@@ -19,6 +22,7 @@ const StageWrapper = ({
     className,
     areas = SPIDER_AREAS,
     cards = SPIDER_CARDS,
+    handCards = [],
     cardPresets = require(`../data/default/cards.json`),
     comparisonKey = 'category',
     compareWeights = false,
@@ -31,7 +35,7 @@ const StageWrapper = ({
     setLength = 13,
     cardClassName,
     onAreaUpdate = () => {},
-    children,
+    children = [],
 }) => {
     const stageRef = useRef();
     const [stageBounds, updateStageBounds] = useState({
@@ -81,7 +85,9 @@ const StageWrapper = ({
         areaId = undefined
     ) => {
         const id = areaId ? areaId : globalAreasArray[0];
-        pushCards([{ cardType, areaId: id }])
+        pushCards({
+            newCards: [{ cardType, areaId: id }]
+        })
 
         return `Card of type ${cardType} pushed to area ${id}`;
     }
@@ -140,12 +146,14 @@ const StageWrapper = ({
             newAreas: areas, 
             newCards: cards, 
             randomDistribution, 
-            equalDistribution
+            equalDistribution,
+            lockOnSet,
+            setLength
         })
 
         return global.clearStage;
     }, [
-        areas, cards, initialPush,
+        areas, cards, initialPush, lockOnSet, setLength,
         cardPresets, updatePresets, compareWeights,
         equalDistribution, randomDistribution
     ]);
@@ -185,9 +193,16 @@ const StageWrapper = ({
                 cardClassName={cardClassName}
                 onAreaUpdate={onAreaUpdate}
             >
-                {children}
+                {children[0] ?? <Card />}
+                {children[1] ?? <HiddenCard />}
             </CardElements>
-
+            <Hand 
+                initCards={handCards} 
+                setLength={setLength}
+                lockOnSet={lockOnSet}
+            >
+                {children[1] ?? <HiddenCard />}
+            </Hand>
         </section>
     )
 }

@@ -21,7 +21,8 @@ export const checkSame = (array, key = 'category') => {
 }
 
 export const checkCardSet = (cardIds, setLength, allItems, presets) => {
-    const cards = cardIds.map(id => allItems[id]).map(({ cardType }) => presets[cardType]);
+
+    const cards = cardIds.map(id => presets[allItems[id].cardType]);
 
     // Check set length
     if (cards.length !== setLength) return false;
