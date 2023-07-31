@@ -37,16 +37,14 @@ const usePush = () => {
         randomDistribution, 
         equalDistribution,
         callback = () => {}
-    }) => (
-        newCards.reduce((o, card, index) => {
+    }) => {
+        const cards = newCards.reduce((o, card, index) => {
             const id = `card_${initialId + index}`;
             const areaId = (
                 card.areaId ? card.areaId :
                 randomDistribution ? `area_${Math.floor(Math.random() * areasAmount)}` :
                 `area_${index}`
             );
-
-            callback(areaId, id);
 
             return { 
                 ...o,
@@ -56,8 +54,11 @@ const usePush = () => {
                     id
                 }
             }
-        }, {})
-    ), [areasAmount])
+        }, {});
+
+        callback(cards);
+        return cards;
+    }, [areasAmount])
 
     const pushAreas = useCallback((newAreas = []) => {
         updateAreas(state => (
@@ -71,23 +72,25 @@ const usePush = () => {
         ))
     }, [updateAreas]);
 
-    const pushToAreaCardIds = useCallback((items, areaId, cards, lockOnSet, setLength) => {
+    const pushToAreaCardIds = useCallback(({ items, lockOnSet, setLength }) => {
         if (items.length === 0) return;
-        updateAreas(state => {
-            const newCardIds = [...state[areaId].cardIds, ...items];
-            console.log(newCardIds);
-            const isSet = checkCardSet(newCardIds, setLength, cards, presets);
-            return {
-                ...state,
-                [areaId]: {
-                    ...state[areaId],
-                    cardIds: newCardIds,
-                    isSet,
-                    isLocked: lockOnSet && isSet,
-                }
+
+        const localAreas = {...globalAreas};
+
+        items.forEach((card) => {
+            const areaId = card.areaId;
+            const cardId = card.id ?? card;
+            const area = localAreas[areaId];
+            localAreas[areaId] = {
+                ...area,
+                cardIds: [
+                    ...area?.cardIds ?? [],
+                    cardId
+                ]
             }
         })
-    }, [updateAreas, presets]);
+        return localAreas;
+    }, [presets, globalAreas]);
 
     const pushCards = useCallback(
         ({
@@ -96,47 +99,52 @@ const usePush = () => {
             equalDistribution = false, 
             lockOnSet, 
             setLength
-        }) => (
-            updateCards(state => (
-                {
-                    ...state,
-                    ...generateCards({
-                        newCards, 
-                        initialId: Object.keys(state).length - 1, 
-                        randomDistribution,
-                        equalDistribution,
-                        callback: (areaId, cardId) => {
-                            console.log(areaId, cardId);
-                            pushToAreaCardIds([cardId], areaId, state, lockOnSet, setLength);
-                        }
-                    })
-                }
-            ))
-        ), [updateCards, generateCards, pushToAreaCardIds]);
+        }) => {
+            const localCards = generateCards({
+                newCards, 
+                initialId: Object.keys(globalCards).length - 1, 
+                randomDistribution,
+                equalDistribution
+            })
+            const localAreas = pushToAreaCardIds({
+                items: Object.values(localCards),
+                lockOnSet,
+                setLength
+            });
+            updateCards(state => ({
+                ...state,
+                ...localCards
+            }));
+            updateAreas(state => ({
+                ...state,
+                ...localAreas
+            }));
+        }, [updateCards, updateAreas, generateCards, pushToAreaCardIds]);
 
     const initialPush = useCallback(({
         newAreas, 
         newCards, 
         randomDistribution, 
-        equalDistribution
+        equalDistribution,
+        lockOnSet,
+        setLength
     }) => {
-        let areas = globalAreas, cards = globalCards;
         if (areasAmount === 0) {
-            areas = generateAreas({ newAreas });
-        } else if (Object.keys(cards).length === 0) {
-            cards = generateCards({
+            updateAreas(generateAreas({ newAreas }));
+        } else if (Object.keys(globalCards).length === 0) {
+            const localCards = generateCards({
                 newCards,
                 randomDistribution,
-                equalDistribution,
-                callback: (areaId, cardId) => {
-                    areas[areaId].cardIds.push(cardId);
-                },
+                equalDistribution
             })
+            updateCards(localCards);
+            updateAreas(pushToAreaCardIds({
+                items: Object.values(localCards),
+                lockOnSet, 
+                setLength
+            }))
         }
-
-        updateAreas(areas);
-        updateCards(cards);
-    }, [updateAreas, updateCards, generateCards, areasAmount, globalAreas, globalCards])
+    }, [updateAreas, updateCards, generateCards, areasAmount])
 
     return { pushAreas, pushCards, initialPush, pushToAreaCardIds }
 }

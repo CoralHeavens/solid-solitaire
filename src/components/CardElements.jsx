@@ -1,9 +1,7 @@
 import React from "react";
 import { useCards } from "../context/cardsContext";
 import CardWrapper from "./CardWrapper";
-import Card from "./Card";
 import { zeroPoint } from "../constants/cardEngine";
-import HiddenCard from "./HiddenCard";
 
 const CardElements = ({ 
     stageWrapper = { 

@@ -146,12 +146,14 @@ const StageWrapper = ({
             newAreas: areas, 
             newCards: cards, 
             randomDistribution, 
-            equalDistribution
+            equalDistribution,
+            lockOnSet,
+            setLength
         })
 
         return global.clearStage;
     }, [
-        areas, cards, initialPush,
+        areas, cards, initialPush, lockOnSet, setLength,
         cardPresets, updatePresets, compareWeights,
         equalDistribution, randomDistribution
     ]);
