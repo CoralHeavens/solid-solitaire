@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
-import { checkCardSet } from "../helpers/checkCards";
 import { usePresets } from "../context/presetsContext";
 
 const usePush = () => {
@@ -102,7 +101,7 @@ const usePush = () => {
         }) => {
             const localCards = generateCards({
                 newCards, 
-                initialId: Object.keys(globalCards).length - 1, 
+                initialId: Object.keys(globalCards).length, 
                 randomDistribution,
                 equalDistribution
             })

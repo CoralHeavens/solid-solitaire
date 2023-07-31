@@ -7,6 +7,7 @@ import useMove from "../hooks/useMove";
 import { usePresets } from "../context/presetsContext";
 import useLock from "../hooks/useLock";
 import joinClassNames from "../helpers/joinClassNames";
+import useWindow from "../hooks/useWindow";
 
 const CardWrapper = ({
     stageWrapper,
@@ -26,6 +27,8 @@ const CardWrapper = ({
     const { moveCards } = useMove();
     const echoAll = useEcho();
     const area = useAreas()[areaId];
+
+    const { width, height } = useWindow();
 
     const isHidden = useLock({
         state: !area.isLocked && area.cardIds.at(-1) !== id, 
@@ -48,11 +51,11 @@ const CardWrapper = ({
 
     const areaPos = useMemo(() => document.getElementById(areaId).getBoundingClientRect(), [areaId]);
 
-    const areaStyle = {
-        left: areaPos.x - stageWrapper.offset.x + (areaGap.x * areaIndex), 
-        top: areaPos.y - stageWrapper.offset.y + (areaGap.y * areaIndex),
+    const areaStyle = useMemo(() => ({
+        left: areaPos.x - stageWrapper.offset.x + ((width * areaGap.x) * areaIndex), 
+        top: areaPos.y - stageWrapper.offset.y + ((height * areaGap.y) * areaIndex),
         zIndex: cardStartIndex + areaIndex
-    }
+    }), [width, height, areaIndex, areaPos, stageWrapper])
 
     const dragStyle = useMemo(() => {
         if (!isDragged) return;
@@ -65,15 +68,15 @@ const CardWrapper = ({
         const cardCursorOffsetX = isSoloDragging ? 0 : cardSize.width * cardOffsetModifier.x;
         const cardCursorOffsetY = isSoloDragging ? 0 : cardSize.height * cardOffsetModifier.y;
 
-        const areaShiftX = areaGap.x * dragIndex;
-        const areaShiftY = areaGap.y * dragIndex;
+        const areaShiftX = (width * areaGap.x) * dragIndex;
+        const areaShiftY = (height * areaGap.y) * dragIndex;
 
         return {
             left: cardPosX + cardCursorOffsetX + areaShiftX,
             top: cardPosY + cardCursorOffsetY + areaShiftY,
             zIndex: cardDragIndex + dragIndex
         }
-    }, [cursor, cardSize, dragIndex, stageWrapper, isDragged])
+    }, [cursor, cardSize, dragIndex, stageWrapper, isDragged, width, height])
 
     useLayoutEffect(() => {
         const { width, height } = cardRef.current.getBoundingClientRect();

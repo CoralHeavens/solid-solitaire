@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useAreas, useUpdateAreas } from "../context/areasContext";
 import { useCards, useUpdateCards } from "../context/cardsContext";
 import { usePresets } from "../context/presetsContext";
@@ -9,6 +10,13 @@ const useMove = () => {
     const areas = useAreas();
     const cards = useCards();
     const { data: presets, compareWeights: useWeight } = usePresets();
+    const [setsAmount, updateSets] = useState(0);
+
+    useEffect(() => {
+        if (setsAmount >= 8) {
+            alert("You won!");
+        }
+    }, [setsAmount])
 
     const updateCardsAreaId = (items, areaId) => (
         updateCards(state => {
@@ -17,22 +25,6 @@ const useMove = () => {
             return result;
         })
     );
-
-    // const cutFromAreaCards = (items, id, lockOnSet, setLength) => (
-    //     updateAreas(state => {
-    //         const newCardIds = state[id].cardIds.filter(cardId => items.indexOf(cardId) === -1);
-    //         const isSet = checkCardSet(newCardIds, setLength, cards, presets);
-    //         return {
-    //             ...state,
-    //             [id]: {
-    //                 ...state[id],
-    //                 cardIds: newCardIds,
-    //                 isSet,
-    //                 isLocked: lockOnSet && isSet
-    //             }
-    //         }
-    //     })
-    // )
 
     const compareCards = ({
         fromId, toId, key
@@ -56,7 +48,6 @@ const useMove = () => {
         if (from === to) return;
         if (!items) items = areas[from].cardIds;
 
-        
         const isAppliable = (!areas[from].isLocked && !areas[to].isLocked) && (
             compareCards({
                 fromId: items[0],
@@ -66,11 +57,13 @@ const useMove = () => {
         );
 
         if (isAppliable) {
-            // cutFromAreaCards(items, from, lockOnSet, setLength);
             const localAreas = {...areas};
 
             const newCardIds = localAreas[from].cardIds.filter(cardId => items.indexOf(cardId) === -1);
             const isSet = checkCardSet(newCardIds, setLength, cards, presets);
+
+            if (isSet) updateSets(state => state + 1);
+
             localAreas[from] = {
                 ...localAreas[from],
                 cardIds: newCardIds,
