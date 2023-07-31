@@ -10,7 +10,7 @@ export const zeroSize = {
 
 export const areaGap = {
     x: 0,
-    y: 40
+    y: 0.04
 }
 
 export const cursorOffset = {

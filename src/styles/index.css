@@ -36,7 +36,7 @@ a, button {
 }
 
 .wrapper-size {
-    @apply w-[9.5%] aspect-[2/3] rounded-xl min-w-[95px] max-w-[140px] max-h-[210px]
+    @apply w-[9.5%] aspect-[2/3] rounded-xl max-w-[140px] max-h-[210px]
 }
 
 .area-wrapper {
@@ -44,7 +44,7 @@ a, button {
 }
 
 .card-wrapper {
-    @apply wrapper-size p-1.5 no-pointer-children absolute shadow-2xl
+    @apply wrapper-size p-1.5 no-pointer-children absolute shadow-2xl hover:z-[999]
 }
 
 .hand-wrapper {

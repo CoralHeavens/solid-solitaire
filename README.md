@@ -1,4 +1,4 @@
-### version 0.1.5 ###
+### version 1.1.0 ###
 
 ## Info:
 - Routing depends on localstorage info
@@ -19,6 +19,8 @@
 - Card revealed state saves even if the card was covered again
 - Area locks if is has full card set
 - All cards reveales if the area is locked
+- Hand is available for drawing cards
+- Getting alert if all cards are set
 
 ## Console controls:
 
